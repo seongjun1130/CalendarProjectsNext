@@ -30,11 +30,6 @@ public class CommentService {
         return commentMapper.commentToCommentCreateResponseDto(comment);
     }
 
-    public List<CommentReadResponseDto> getCommentsList(Long scheduleId) {
-        Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(() -> new NullPointerException("Schedule not found"));
-        return commentRepository.findByScheduleId(scheduleId).stream().map(commentMapper::commentToCommentReadResponseDto).toList();
-    }
-
     public void updateComment(Long commentId, CommentUpdateRequestDto curDto) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new NullPointerException("Comment not found"));
         CommentCommand.Update.executeUpdate(comment, curDto);
@@ -43,5 +38,10 @@ public class CommentService {
     public void deleteComment(Long commentId) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new NullPointerException("Comment not found"));
         commentRepository.delete(comment);
+    }
+
+    public CommentReadResponseDto getComment(Long commentId) {
+        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new NullPointerException("Comment not found"));
+        return commentMapper.commentToCommentReadResponseDto(comment);
     }
 }

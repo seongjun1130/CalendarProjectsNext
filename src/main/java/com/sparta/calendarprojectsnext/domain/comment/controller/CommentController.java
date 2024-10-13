@@ -25,11 +25,11 @@ public class CommentController {
                 .body(commentService.createComment(ccrDto));
     }
 
-    @GetMapping("/{scheduleId}")
-    public ResponseEntity<List<CommentReadResponseDto>> getCommentList(@PathVariable Long scheduleId) {
+    @GetMapping("/{commentId}")
+    public ResponseEntity<CommentReadResponseDto> getCommentList(@PathVariable Long commentId) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(commentService.getCommentsList(scheduleId));
+                .body(commentService.getComment(commentId));
     }
 
     @PutMapping("/{commentId}")
