@@ -4,6 +4,7 @@ import com.sparta.calendarprojectsnext.domain.comment.command.CommentCommand;
 import com.sparta.calendarprojectsnext.domain.comment.dto.CommentCreateRequestDto;
 import com.sparta.calendarprojectsnext.domain.comment.dto.CommentCreateResponseDto;
 import com.sparta.calendarprojectsnext.domain.comment.dto.CommentReadResponseDto;
+import com.sparta.calendarprojectsnext.domain.comment.dto.CommentUpdateRequestDto;
 import com.sparta.calendarprojectsnext.domain.comment.entity.Comment;
 import com.sparta.calendarprojectsnext.domain.comment.mapper.CommentMapper;
 import com.sparta.calendarprojectsnext.domain.comment.repository.CommentRepository;
@@ -32,5 +33,10 @@ public class CommentService {
     public List<CommentReadResponseDto> getCommentsList(Long scheduleId) {
         Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(() -> new NullPointerException("Schedule not found"));
         return commentRepository.findByScheduleId(scheduleId).stream().map(commentMapper::commentToCommentReadResponseDto).toList();
+    }
+
+    public void updateComment(Long commentId, CommentUpdateRequestDto curDto) {
+        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new NullPointerException("Comment not found"));
+        CommentCommand.Update.executeUpdate(comment, curDto);
     }
 }

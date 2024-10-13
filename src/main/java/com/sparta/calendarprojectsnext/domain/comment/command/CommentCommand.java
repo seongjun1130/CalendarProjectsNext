@@ -1,6 +1,7 @@
 package com.sparta.calendarprojectsnext.domain.comment.command;
 
 import com.sparta.calendarprojectsnext.domain.comment.dto.CommentCreateRequestDto;
+import com.sparta.calendarprojectsnext.domain.comment.dto.CommentUpdateRequestDto;
 import com.sparta.calendarprojectsnext.domain.comment.entity.Comment;
 import com.sparta.calendarprojectsnext.domain.schedule.entity.Schedule;
 import com.sparta.calendarprojectsnext.domain.schedule.repository.ScheduleRepository;
@@ -21,6 +22,18 @@ public class CommentCommand {
                     .comment(comment)
                     .userName(userName)
                     .build();
+        }
+    }
+
+    public static class Update {
+        private static String commentDescription;
+        private static String userName;
+
+        public static void executeUpdate(Comment comment, CommentUpdateRequestDto curDto) {
+            commentDescription = curDto.getComment();
+            userName = curDto.getUserName();
+            comment.setComment(commentDescription);
+            comment.setUserName(userName);
         }
     }
 }

@@ -4,6 +4,7 @@ import com.sparta.calendarprojectsnext.domain.comment.dto.CommentCreateRequestDt
 import com.sparta.calendarprojectsnext.domain.comment.dto.CommentCreateResponseDto;
 import com.sparta.calendarprojectsnext.domain.comment.dto.CommentReadResponseDto;
 import com.sparta.calendarprojectsnext.domain.comment.service.CommentService;
+import com.sparta.calendarprojectsnext.domain.comment.dto.CommentUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,4 +32,11 @@ public class CommentController {
                 .body(commentService.getCommentsList(scheduleId));
     }
 
+    @PutMapping("/{commentId}")
+    public ResponseEntity<Void> updateComment(@PathVariable Long commentId, @RequestBody CommentUpdateRequestDto curDto) {
+        commentService.updateComment(commentId, curDto);
+        return ResponseEntity
+                .status(HttpStatus.NO_CONTENT)
+                .build();
+    }
 }
