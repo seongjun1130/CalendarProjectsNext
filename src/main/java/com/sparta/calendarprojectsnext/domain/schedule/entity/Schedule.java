@@ -1,8 +1,12 @@
 package com.sparta.calendarprojectsnext.domain.schedule.entity;
 
 import com.sparta.calendarprojectsnext.domain.audit.Auditable;
+import com.sparta.calendarprojectsnext.domain.comment.entity.Comment;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Setter
 @Getter
@@ -14,11 +18,14 @@ import lombok.*;
 public class Schedule extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     @Column(name = "username", nullable = false, length = 20)
     private String userName;
     @Column(name = "title", nullable = false, length = 50)
     private String title;
     @Column(name = "scheduledetails", nullable = false)
     private String scheduleDetails;
+
+    @OneToMany(mappedBy = "schedule", cascade = CascadeType.REMOVE)
+    private List<Comment> commentList = new ArrayList<>();
 }
