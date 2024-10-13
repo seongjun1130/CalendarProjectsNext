@@ -1,5 +1,6 @@
 package com.sparta.calendarprojectsnext.domain.comment.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sparta.calendarprojectsnext.domain.audit.Auditable;
 import com.sparta.calendarprojectsnext.domain.schedule.entity.Schedule;
 import jakarta.persistence.*;
@@ -22,5 +23,6 @@ public class Comment extends Auditable {
     private String userName;
     @ManyToOne
     @JoinColumn(name = "schedule_id")
+    @JsonIgnore
     private Schedule schedule;
 }

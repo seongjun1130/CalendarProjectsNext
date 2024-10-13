@@ -1,16 +1,12 @@
 package com.sparta.calendarprojectsnext.domain.schedule.controller;
 
-import com.sparta.calendarprojectsnext.domain.schedule.dto.ScheduleCreateRequestDto;
-import com.sparta.calendarprojectsnext.domain.schedule.dto.ScheduleCreateResponseDto;
-import com.sparta.calendarprojectsnext.domain.schedule.dto.ScheduleReadResponseDto;
-import com.sparta.calendarprojectsnext.domain.schedule.dto.ScheduleUpdateRequestDto;
+import com.sparta.calendarprojectsnext.domain.schedule.dto.*;
 import com.sparta.calendarprojectsnext.domain.schedule.service.ScheduleService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,10 +23,11 @@ public class ScheduleController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<ScheduleReadResponseDto>> getSchedulesList() {
+    public ResponseEntity<Page<ScheduleReadPageResponseDto>> getSchedules(@RequestParam(defaultValue = "0", value = "pageNo") int pageNo
+            , @RequestParam(defaultValue = "10", value = "pageSize") int pageSize) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(scheduleService.getSchedulesList());
+                .body(scheduleService.getSchedules(pageNo, pageSize));
     }
 
     @GetMapping("/{scheduleId}")
