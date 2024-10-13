@@ -2,11 +2,9 @@ package com.sparta.calendarprojectsnext.domain.schedule.entity;
 
 import com.sparta.calendarprojectsnext.domain.audit.Auditable;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+@Setter
 @Getter
 @Entity
 @Table(name = "schedules")
