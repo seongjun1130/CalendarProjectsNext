@@ -41,4 +41,9 @@ public class ScheduleService {
         Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(() -> new NullPointerException("Schedule not found"));
         ScheduleCommand.Update.executeUpdate(schedule, surDto);
     }
+
+    public void deleteSchedule(Long scheduleId) {
+        Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(() -> new NullPointerException("Schedule not found"));
+        scheduleRepository.delete(schedule);
+    }
 }
