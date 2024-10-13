@@ -39,4 +39,9 @@ public class CommentService {
         Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new NullPointerException("Comment not found"));
         CommentCommand.Update.executeUpdate(comment, curDto);
     }
+
+    public void deleteComment(Long commentId) {
+        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new NullPointerException("Comment not found"));
+        commentRepository.delete(comment);
+    }
 }
