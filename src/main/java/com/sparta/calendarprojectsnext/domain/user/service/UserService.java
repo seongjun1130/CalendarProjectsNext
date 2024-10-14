@@ -34,4 +34,9 @@ public class UserService {
     public List<UserReadResponseDto> getUserList() {
         return userRepository.findAll().stream().map(userMapper::userToUserReadResponseDto).toList();
     }
+
+    public void deleteUser(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new NullPointerException("Schedule not found"));
+        userRepository.delete(user);
+    }
 }
