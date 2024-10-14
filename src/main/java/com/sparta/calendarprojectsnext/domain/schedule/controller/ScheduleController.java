@@ -37,7 +37,6 @@ public class ScheduleController {
                 .body(scheduleService.getScheduleById(scheduleId));
     }
 
-
     @PutMapping("/{scheduleId}")
     public ResponseEntity<Void> updateSchedule(@PathVariable Long scheduleId, @RequestBody ScheduleUpdateRequestDto surDto) {
         scheduleService.updateSchedule(scheduleId, surDto);
