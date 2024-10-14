@@ -2,14 +2,14 @@ package com.sparta.calendarprojectsnext.domain.user.controller;
 
 import com.sparta.calendarprojectsnext.domain.user.dto.UserCreateRequestDto;
 import com.sparta.calendarprojectsnext.domain.user.dto.UserCreateResponseDto;
+import com.sparta.calendarprojectsnext.domain.user.dto.UserReadResponseDto;
 import com.sparta.calendarprojectsnext.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,5 +22,19 @@ public class UserController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(userService.createUser(ucrDto));
+    }
+
+    @GetMapping()
+    public ResponseEntity<List<UserReadResponseDto>> getUserList() {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(userService.getUserList());
+    }
+
+    @GetMapping("/{userId}")
+    public ResponseEntity<UserReadResponseDto> getUser(@PathVariable Long userId) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(userService.getUser(userId));
     }
 }

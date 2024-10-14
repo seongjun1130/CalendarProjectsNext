@@ -8,13 +8,11 @@ import com.sparta.calendarprojectsnext.domain.comment.dto.CommentUpdateRequestDt
 import com.sparta.calendarprojectsnext.domain.comment.entity.Comment;
 import com.sparta.calendarprojectsnext.domain.comment.mapper.CommentMapper;
 import com.sparta.calendarprojectsnext.domain.comment.repository.CommentRepository;
-import com.sparta.calendarprojectsnext.domain.schedule.entity.Schedule;
 import com.sparta.calendarprojectsnext.domain.schedule.repository.ScheduleRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 
 @Service
 @Transactional
