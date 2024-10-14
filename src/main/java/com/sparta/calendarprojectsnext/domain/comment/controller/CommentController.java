@@ -5,13 +5,15 @@ import com.sparta.calendarprojectsnext.domain.comment.dto.CommentCreateResponseD
 import com.sparta.calendarprojectsnext.domain.comment.dto.CommentReadResponseDto;
 import com.sparta.calendarprojectsnext.domain.comment.service.CommentService;
 import com.sparta.calendarprojectsnext.domain.comment.dto.CommentUpdateRequestDto;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
+@Validated
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/comment")
@@ -19,21 +21,21 @@ public class CommentController {
     private final CommentService commentService;
 
     @PostMapping()
-    public ResponseEntity<CommentCreateResponseDto> createComment(@RequestBody CommentCreateRequestDto ccrDto) {
+    public ResponseEntity<CommentCreateResponseDto> createComment(@RequestBody @Valid CommentCreateRequestDto ccrDto) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(commentService.createComment(ccrDto));
     }
 
     @GetMapping("/{commentId}")
-    public ResponseEntity<CommentReadResponseDto> getCommentList(@PathVariable Long commentId) {
+    public ResponseEntity<CommentReadResponseDto> getCommentList(@PathVariable @Positive(message = "CommentId 는 0보다 커야합니다.") Long commentId) {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(commentService.getComment(commentId));
     }
 
     @PutMapping("/{commentId}")
-    public ResponseEntity<Void> updateComment(@PathVariable Long commentId, @RequestBody CommentUpdateRequestDto curDto) {
+    public ResponseEntity<Void> updateComment(@PathVariable Long commentId, @RequestBody @Valid CommentUpdateRequestDto curDto) {
         commentService.updateComment(commentId, curDto);
         return ResponseEntity
                 .status(HttpStatus.NO_CONTENT)
@@ -41,7 +43,7 @@ public class CommentController {
     }
 
     @DeleteMapping("/{commentId}")
-    public ResponseEntity<Void> deleteComment(@PathVariable Long commentId) {
+    public ResponseEntity<Void> deleteComment(@PathVariable @Positive(message = "CommentId 는 0보다 커야합니다.") Long commentId) {
         commentService.deleteComment(commentId);
         return ResponseEntity
                 .status(HttpStatus.NO_CONTENT)
