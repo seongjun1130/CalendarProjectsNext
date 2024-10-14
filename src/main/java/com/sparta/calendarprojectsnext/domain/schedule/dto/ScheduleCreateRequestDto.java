@@ -8,7 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class ScheduleCreateRequestDto {
-    private String userName;
+    private Long userId;
     private String title;
     private String scheduleDetails;
 }

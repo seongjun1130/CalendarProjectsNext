@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Builder
 public class ScheduleCreateResponseDto {
     private Long id;
-    private String userName;
+    private Long userId;
     private String title;
     private String scheduleDetails;
     private LocalDateTime createdAt;

@@ -2,6 +2,8 @@ package com.sparta.calendarprojectsnext.domain.schedule.entity;
 
 import com.sparta.calendarprojectsnext.domain.audit.Auditable;
 import com.sparta.calendarprojectsnext.domain.comment.entity.Comment;
+import com.sparta.calendarprojectsnext.domain.user.entity.User;
+import com.sparta.calendarprojectsnext.domain.userschedule.entity.UserSchedule;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,8 +21,6 @@ public class Schedule extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "username", nullable = false, length = 20)
-    private String userName;
     @Column(name = "title", nullable = false, length = 50)
     private String title;
     @Column(name = "scheduledetails", nullable = false)
@@ -28,4 +28,11 @@ public class Schedule extends Auditable {
 
     @OneToMany(mappedBy = "schedule", cascade = CascadeType.REMOVE)
     private List<Comment> commentList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "schedule")
+    private List<UserSchedule> userScheduleList = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 }

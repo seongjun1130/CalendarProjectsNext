@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Builder
 public class ScheduleReadPageResponseDto {
     private Long id;
-    private String userName;
+    private Long userId;
     private String title;
     private String scheduleDetails;
     private Long commentCount;

@@ -5,9 +5,11 @@ import com.sparta.calendarprojectsnext.domain.schedule.dto.ScheduleReadPageRespo
 import com.sparta.calendarprojectsnext.domain.schedule.dto.ScheduleReadResponseDto;
 import com.sparta.calendarprojectsnext.domain.schedule.entity.Schedule;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface ScheduleMapper {
+    @Mapping(source = "user.id", target = "userId")
     ScheduleCreateResponseDto scheduleToScheduleCreateResponseDto(Schedule schedule);
 
     ScheduleReadResponseDto scheduleToScheduleReadResponseDto(Schedule schedule);

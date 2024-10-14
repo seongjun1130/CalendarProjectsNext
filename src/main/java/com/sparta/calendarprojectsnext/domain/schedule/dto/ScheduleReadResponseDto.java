@@ -13,7 +13,7 @@ import java.util.List;
 @Builder
 public class ScheduleReadResponseDto {
     private Long id;
-    private String userName;
+    private Long userId;
     private String title;
     private String scheduleDetails;
     private LocalDateTime createdAt;

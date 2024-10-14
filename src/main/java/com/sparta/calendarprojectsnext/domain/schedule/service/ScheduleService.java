@@ -9,6 +9,7 @@ import com.sparta.calendarprojectsnext.domain.schedule.dto.*;
 import com.sparta.calendarprojectsnext.domain.schedule.entity.Schedule;
 import com.sparta.calendarprojectsnext.domain.schedule.mapper.ScheduleMapper;
 import com.sparta.calendarprojectsnext.domain.schedule.repository.ScheduleRepository;
+import com.sparta.calendarprojectsnext.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,12 +23,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class ScheduleService {
 
     private final ScheduleRepository scheduleRepository;
+    private final UserRepository userRepository;
     private final ScheduleMapper scheduleMapper;
-    private final CommentRepository commentRepository;
-    private final CommentMapper commentMapper;
+
 
     public ScheduleCreateResponseDto createSchedule(ScheduleCreateRequestDto scrDto) {
-        Schedule schedule = ScheduleCommand.Create.toEntity(scrDto);
+        Schedule schedule = ScheduleCommand.Create.toEntity(scrDto, userRepository);
         scheduleRepository.save(schedule);
         return scheduleMapper.scheduleToScheduleCreateResponseDto(schedule);
     }

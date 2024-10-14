@@ -1,6 +1,7 @@
 package com.sparta.calendarprojectsnext.domain.user.entity;
 
 import com.sparta.calendarprojectsnext.domain.audit.Auditable;
+import com.sparta.calendarprojectsnext.domain.schedule.entity.Schedule;
 import com.sparta.calendarprojectsnext.domain.userschedule.entity.UserSchedule;
 import jakarta.persistence.*;
 import lombok.*;
@@ -26,4 +27,6 @@ public class User extends Auditable {
 
     @OneToMany(mappedBy = "user")
     private List<UserSchedule> userSchedules = new ArrayList<>();
+    @OneToMany(mappedBy = "user")
+    private List<Schedule> schedules = new ArrayList<>();
 }
