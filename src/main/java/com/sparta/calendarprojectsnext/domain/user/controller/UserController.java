@@ -3,6 +3,7 @@ package com.sparta.calendarprojectsnext.domain.user.controller;
 import com.sparta.calendarprojectsnext.domain.user.dto.UserCreateRequestDto;
 import com.sparta.calendarprojectsnext.domain.user.dto.UserCreateResponseDto;
 import com.sparta.calendarprojectsnext.domain.user.dto.UserReadResponseDto;
+import com.sparta.calendarprojectsnext.domain.user.dto.UserUpdateRequestDto;
 import com.sparta.calendarprojectsnext.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -36,6 +37,14 @@ public class UserController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(userService.getUser(userId));
+    }
+
+    @PutMapping("/{userId}")
+    public ResponseEntity<Void> updateUser(@PathVariable Long userId, @RequestBody UserUpdateRequestDto uurDto) {
+        userService.updateUser(userId, uurDto);
+        return ResponseEntity
+                .status(HttpStatus.NO_CONTENT)
+                .build();
     }
 
     @DeleteMapping("/{userId}")

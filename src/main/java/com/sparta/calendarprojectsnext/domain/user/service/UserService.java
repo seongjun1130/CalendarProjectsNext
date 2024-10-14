@@ -4,6 +4,7 @@ import com.sparta.calendarprojectsnext.domain.user.command.UserCommand;
 import com.sparta.calendarprojectsnext.domain.user.dto.UserCreateRequestDto;
 import com.sparta.calendarprojectsnext.domain.user.dto.UserCreateResponseDto;
 import com.sparta.calendarprojectsnext.domain.user.dto.UserReadResponseDto;
+import com.sparta.calendarprojectsnext.domain.user.dto.UserUpdateRequestDto;
 import com.sparta.calendarprojectsnext.domain.user.entity.User;
 import com.sparta.calendarprojectsnext.domain.user.mapper.UserMapper;
 import com.sparta.calendarprojectsnext.domain.user.repository.UserRepository;
@@ -27,7 +28,7 @@ public class UserService {
     }
 
     public UserReadResponseDto getUser(Long userId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new NullPointerException("Schedule not found"));
+        User user = userRepository.findById(userId).orElseThrow(() -> new NullPointerException("User not found"));
         return userMapper.userToUserReadResponseDto(user);
     }
 
@@ -35,8 +36,13 @@ public class UserService {
         return userRepository.findAll().stream().map(userMapper::userToUserReadResponseDto).toList();
     }
 
+    public void updateUser(Long userId, UserUpdateRequestDto uurDto) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new NullPointerException("User not found"));
+        UserCommand.Update.executeUpdate(user, uurDto);
+    }
+
     public void deleteUser(Long userId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new NullPointerException("Schedule not found"));
+        User user = userRepository.findById(userId).orElseThrow(() -> new NullPointerException("User not found"));
         userRepository.delete(user);
     }
 }
