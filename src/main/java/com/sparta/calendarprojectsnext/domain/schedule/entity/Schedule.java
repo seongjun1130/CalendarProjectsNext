@@ -29,7 +29,7 @@ public class Schedule extends Auditable {
     @OneToMany(mappedBy = "schedule", cascade = CascadeType.REMOVE)
     private List<Comment> commentList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "schedule")
+    @OneToMany(mappedBy = "schedule", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<UserSchedule> userScheduleList = new ArrayList<>();
 
     @ManyToOne

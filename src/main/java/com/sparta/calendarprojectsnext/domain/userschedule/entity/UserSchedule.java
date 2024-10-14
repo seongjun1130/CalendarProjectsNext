@@ -26,8 +26,8 @@ public class UserSchedule {
     @ManyToOne
     @JoinColumn(name = "schedule_id")
     private Schedule schedule;
-//    @Column(name ="role", nullable = false)
-//    private String role;
+    @Column(name = "role", nullable = false)
+    private String role;
 
     private LocalDateTime joinedAt;
 }

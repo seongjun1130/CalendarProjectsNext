@@ -1,15 +1,13 @@
 package com.sparta.calendarprojectsnext.domain.schedule.service;
 
-import com.sparta.calendarprojectsnext.domain.comment.entity.Comment;
-import com.sparta.calendarprojectsnext.domain.comment.mapper.CommentMapper;
-import com.sparta.calendarprojectsnext.domain.comment.repository.CommentRepository;
-import com.sparta.calendarprojectsnext.domain.comment.service.CommentService;
 import com.sparta.calendarprojectsnext.domain.schedule.command.ScheduleCommand;
 import com.sparta.calendarprojectsnext.domain.schedule.dto.*;
 import com.sparta.calendarprojectsnext.domain.schedule.entity.Schedule;
 import com.sparta.calendarprojectsnext.domain.schedule.mapper.ScheduleMapper;
 import com.sparta.calendarprojectsnext.domain.schedule.repository.ScheduleRepository;
 import com.sparta.calendarprojectsnext.domain.user.repository.UserRepository;
+import com.sparta.calendarprojectsnext.domain.userschedule.entity.UserSchedule;
+import com.sparta.calendarprojectsnext.domain.userschedule.repository.UserScheduleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,12 +22,15 @@ public class ScheduleService {
 
     private final ScheduleRepository scheduleRepository;
     private final UserRepository userRepository;
+    private final UserScheduleRepository userScheduleRepository;
     private final ScheduleMapper scheduleMapper;
 
 
     public ScheduleCreateResponseDto createSchedule(ScheduleCreateRequestDto scrDto) {
-        Schedule schedule = ScheduleCommand.Create.toEntity(scrDto, userRepository);
+        Schedule schedule = ScheduleCommand.Create.toSchedule(scrDto, userRepository);
         scheduleRepository.save(schedule);
+        UserSchedule userSchedule = ScheduleCommand.Create.toUserSchedule(schedule);
+        userScheduleRepository.save(userSchedule);
         return scheduleMapper.scheduleToScheduleCreateResponseDto(schedule);
     }
 

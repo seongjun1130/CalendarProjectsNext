@@ -5,6 +5,10 @@ import com.sparta.calendarprojectsnext.domain.schedule.dto.ScheduleUpdateRequest
 import com.sparta.calendarprojectsnext.domain.schedule.entity.Schedule;
 import com.sparta.calendarprojectsnext.domain.user.entity.User;
 import com.sparta.calendarprojectsnext.domain.user.repository.UserRepository;
+import com.sparta.calendarprojectsnext.domain.userschedule.entity.UserSchedule;
+import com.sparta.calendarprojectsnext.domain.userschedule.repository.UserScheduleRepository;
+
+import java.time.LocalDateTime;
 
 public class ScheduleCommand {
 
@@ -12,7 +16,7 @@ public class ScheduleCommand {
         private static String title;
         private static String scheduleDetails;
 
-        public static Schedule toEntity(ScheduleCreateRequestDto scrDto, UserRepository userRepository) {
+        public static Schedule toSchedule(ScheduleCreateRequestDto scrDto, UserRepository userRepository) {
             User user = userRepository.findById(scrDto.getUserId()).orElseThrow(() -> new NullPointerException("User Not Found"));
             title = scrDto.getTitle();
             scheduleDetails = scrDto.getScheduleDetails();
@@ -20,6 +24,15 @@ public class ScheduleCommand {
                     .user(user)
                     .title(title)
                     .scheduleDetails(scheduleDetails)
+                    .build();
+        }
+
+        public static UserSchedule toUserSchedule(Schedule schedule) {
+            return UserSchedule.builder()
+                    .user(schedule.getUser())
+                    .schedule(schedule)
+                    .role("creator")
+                    .joinedAt(LocalDateTime.now())
                     .build();
         }
     }

@@ -25,7 +25,7 @@ public class User extends Auditable {
     @Column(name = "email", nullable = false, length = 50, unique = true)
     private String email;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<UserSchedule> userSchedules = new ArrayList<>();
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Schedule> schedules = new ArrayList<>();
