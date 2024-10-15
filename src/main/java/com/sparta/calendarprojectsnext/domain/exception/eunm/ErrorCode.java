@@ -9,6 +9,10 @@ import org.springframework.http.HttpStatus;
 public enum ErrorCode {
     // 400 에러
     NOT_NULL(HttpStatus.BAD_REQUEST, "필수 값 누락"),
+    USER_INFO_MISMATCH(HttpStatus.BAD_REQUEST, "사용자 정보 오류"),
+
+    // 401 에러
+    LOGIN_FAILED(HttpStatus.UNAUTHORIZED, "로그인 실패"),
 
     // 403 에러
     NOT_CREATOR(HttpStatus.FORBIDDEN, "작성자가 아님"),

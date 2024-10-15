@@ -1,10 +1,9 @@
 package com.sparta.calendarprojectsnext.domain.user.controller;
 
-import com.sparta.calendarprojectsnext.domain.user.dto.UserCreateRequestDto;
-import com.sparta.calendarprojectsnext.domain.user.dto.UserCreateResponseDto;
-import com.sparta.calendarprojectsnext.domain.user.dto.UserReadResponseDto;
-import com.sparta.calendarprojectsnext.domain.user.dto.UserUpdateRequestDto;
+import com.sparta.calendarprojectsnext.domain.jwt.JwtUtil;
+import com.sparta.calendarprojectsnext.domain.user.dto.*;
 import com.sparta.calendarprojectsnext.domain.user.service.UserService;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
@@ -15,18 +14,29 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
 @Validated
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/user")
 public class UserController {
     private final UserService userService;
+    private final JwtUtil jwtUtil;
 
     @PostMapping()
     public ResponseEntity<UserCreateResponseDto> createUser(@Valid @RequestBody UserCreateRequestDto ucrDto) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(userService.createUser(ucrDto));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<UserLoginResponseDto> logIn(@Valid @RequestBody UserLoginRequestDto ulrDto, HttpServletResponse res) {
+        UserLoginResponseDto resDto = userService.logIn(ulrDto);
+        String token = jwtUtil.createToken(ulrDto.getEmail());
+        jwtUtil.addJwtToCookie(token, res);
+        resDto.setToken(token);
+        return ResponseEntity.status(HttpStatus.OK).body(resDto);
     }
 
     @GetMapping()

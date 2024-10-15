@@ -3,10 +3,7 @@ package com.sparta.calendarprojectsnext.domain.user.service;
 import com.sparta.calendarprojectsnext.domain.config.PasswordEncoder;
 import com.sparta.calendarprojectsnext.domain.exception.CustomException;
 import com.sparta.calendarprojectsnext.domain.user.command.UserCommand;
-import com.sparta.calendarprojectsnext.domain.user.dto.UserCreateRequestDto;
-import com.sparta.calendarprojectsnext.domain.user.dto.UserCreateResponseDto;
-import com.sparta.calendarprojectsnext.domain.user.dto.UserReadResponseDto;
-import com.sparta.calendarprojectsnext.domain.user.dto.UserUpdateRequestDto;
+import com.sparta.calendarprojectsnext.domain.user.dto.*;
 import com.sparta.calendarprojectsnext.domain.user.entity.User;
 import com.sparta.calendarprojectsnext.domain.user.mapper.UserMapper;
 import com.sparta.calendarprojectsnext.domain.user.repository.UserRepository;
@@ -15,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.sparta.calendarprojectsnext.domain.exception.eunm.ErrorCode.*;
 
@@ -27,15 +25,23 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     public UserCreateResponseDto createUser(UserCreateRequestDto ucrDto) {
-        User user = UserCommand.Create.toEntity(ucrDto, passwordEncoder);
-        if (userRepository.existsByEmail(user.getEmail())) {
+        if (userRepository.existsByEmail(ucrDto.getEmail())) {
             throw new CustomException(ALREADY_EMAIL_USER);
         }
-        if (userRepository.existsByUserName(user.getUserName())) {
+        if (userRepository.existsByUserName(ucrDto.getUserName())) {
             throw new CustomException(ALREADY_USERNAME_USER);
         }
+        User user = UserCommand.Create.toEntity(ucrDto, passwordEncoder);
         userRepository.save(user);
         return userMapper.userToUserCreateResponseDto(user);
+    }
+
+    public UserLoginResponseDto logIn(UserLoginRequestDto ulrDto) {
+        User user = userRepository.findByEmail(ulrDto.getEmail()).orElseThrow(() -> new CustomException(USER_NOT_FOUND));
+        if (!user.isValidPassword(ulrDto.getPassWord(), passwordEncoder)) {
+            throw new CustomException(USER_INFO_MISMATCH);
+        }
+        return userMapper.userToUserLoginResponseDto(user);
     }
 
     public UserReadResponseDto getUser(Long userId) {
