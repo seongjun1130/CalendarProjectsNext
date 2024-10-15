@@ -1,4 +1,4 @@
-package com.sparta.calendarprojectsnext.domain.exception;
+package com.sparta.calendarprojectsnext.domain.exception.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

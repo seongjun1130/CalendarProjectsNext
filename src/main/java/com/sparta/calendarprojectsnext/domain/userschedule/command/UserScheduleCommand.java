@@ -10,8 +10,8 @@ import com.sparta.calendarprojectsnext.domain.userschedule.entity.UserSchedule;
 
 import java.time.LocalDateTime;
 
-import static com.sparta.calendarprojectsnext.domain.exception.ErrorCode.SCHEDULE_NOT_FOUND;
-import static com.sparta.calendarprojectsnext.domain.exception.ErrorCode.USER_NOT_FOUND;
+import static com.sparta.calendarprojectsnext.domain.exception.eunm.ErrorCode.SCHEDULE_NOT_FOUND;
+import static com.sparta.calendarprojectsnext.domain.exception.eunm.ErrorCode.USER_NOT_FOUND;
 
 public class UserScheduleCommand {
     public static class Create {

@@ -14,7 +14,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import static com.sparta.calendarprojectsnext.domain.exception.ErrorCode.COMMENT_NOT_FOUND;
+import static com.sparta.calendarprojectsnext.domain.exception.eunm.ErrorCode.COMMENT_NOT_FOUND;
 
 
 @Service

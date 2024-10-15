@@ -1,7 +1,6 @@
 package com.sparta.calendarprojectsnext.domain.userschedule.service;
 
 import com.sparta.calendarprojectsnext.domain.exception.CustomException;
-import com.sparta.calendarprojectsnext.domain.exception.ErrorCode;
 import com.sparta.calendarprojectsnext.domain.schedule.repository.ScheduleRepository;
 import com.sparta.calendarprojectsnext.domain.user.entity.User;
 import com.sparta.calendarprojectsnext.domain.user.repository.UserRepository;
@@ -15,7 +14,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import static com.sparta.calendarprojectsnext.domain.exception.ErrorCode.*;
+import static com.sparta.calendarprojectsnext.domain.exception.eunm.ErrorCode.*;
 
 @Service
 @RequiredArgsConstructor

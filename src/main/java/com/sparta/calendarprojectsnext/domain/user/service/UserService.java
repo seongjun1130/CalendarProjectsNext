@@ -1,7 +1,6 @@
 package com.sparta.calendarprojectsnext.domain.user.service;
 
 import com.sparta.calendarprojectsnext.domain.exception.CustomException;
-import com.sparta.calendarprojectsnext.domain.exception.ErrorCode;
 import com.sparta.calendarprojectsnext.domain.user.command.UserCommand;
 import com.sparta.calendarprojectsnext.domain.user.dto.UserCreateRequestDto;
 import com.sparta.calendarprojectsnext.domain.user.dto.UserCreateResponseDto;
@@ -16,7 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.sparta.calendarprojectsnext.domain.exception.ErrorCode.USER_NOT_FOUND;
+import static com.sparta.calendarprojectsnext.domain.exception.eunm.ErrorCode.USER_NOT_FOUND;
 
 @Service
 @Transactional

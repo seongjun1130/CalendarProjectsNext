@@ -1,9 +1,10 @@
-package com.sparta.calendarprojectsnext.domain.exception;
+package com.sparta.calendarprojectsnext.domain.exception.controller;
 
+import com.sparta.calendarprojectsnext.domain.exception.CustomException;
+import com.sparta.calendarprojectsnext.domain.exception.dto.ErrorDto;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.Objects;
 
-import static com.sparta.calendarprojectsnext.domain.exception.ErrorCode.INTERNAL_SERVER_ERROR;
+import static com.sparta.calendarprojectsnext.domain.exception.eunm.ErrorCode.INTERNAL_SERVER_ERROR;
 
 
 @Slf4j
