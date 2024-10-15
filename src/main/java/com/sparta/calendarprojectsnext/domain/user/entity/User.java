@@ -3,6 +3,7 @@ package com.sparta.calendarprojectsnext.domain.user.entity;
 import com.sparta.calendarprojectsnext.domain.audit.Auditable;
 import com.sparta.calendarprojectsnext.domain.config.PasswordEncoder;
 import com.sparta.calendarprojectsnext.domain.schedule.entity.Schedule;
+import com.sparta.calendarprojectsnext.domain.user.eunm.UserRole;
 import com.sparta.calendarprojectsnext.domain.userschedule.entity.UserSchedule;
 import jakarta.persistence.*;
 import lombok.*;
@@ -27,6 +28,9 @@ public class User extends Auditable {
     private String email;
     @Column(name = "password", nullable = false)
     private String passWord;
+    @Column(name = "role", nullable = false)
+    @Enumerated(value = EnumType.STRING)
+    private UserRole role;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<UserSchedule> userSchedules = new ArrayList<>();
@@ -35,5 +39,9 @@ public class User extends Auditable {
 
     public boolean isValidPassword(String password, PasswordEncoder pwEncoder) {
         return pwEncoder.matches(password, passWord);
+    }
+
+    public boolean isAdmin() {
+        return role.equals(UserRole.ADMIN);
     }
 }

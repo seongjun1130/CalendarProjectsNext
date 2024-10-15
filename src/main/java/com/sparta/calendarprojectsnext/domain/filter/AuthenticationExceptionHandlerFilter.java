@@ -1,6 +1,5 @@
 package com.sparta.calendarprojectsnext.domain.filter;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sparta.calendarprojectsnext.domain.exception.CustomException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

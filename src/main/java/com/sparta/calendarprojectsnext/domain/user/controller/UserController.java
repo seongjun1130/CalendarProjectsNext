@@ -33,7 +33,7 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<UserLoginResponseDto> logIn(@Valid @RequestBody UserLoginRequestDto ulrDto, HttpServletResponse res) {
         UserLoginResponseDto resDto = userService.logIn(ulrDto);
-        String token = jwtUtil.createToken(resDto.getId());
+        String token = jwtUtil.createToken(resDto.getId(), resDto.getRole());
         jwtUtil.addJwtToCookie(token, res);
         resDto.setToken(token);
         return ResponseEntity.status(HttpStatus.OK).body(resDto);

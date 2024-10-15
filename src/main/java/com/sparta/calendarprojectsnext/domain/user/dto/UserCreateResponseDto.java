@@ -15,4 +15,5 @@ public class UserCreateResponseDto {
     private String email;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
+    private String role;
 }

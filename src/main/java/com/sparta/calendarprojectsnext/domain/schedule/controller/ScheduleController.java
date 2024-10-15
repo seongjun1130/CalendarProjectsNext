@@ -44,16 +44,16 @@ public class ScheduleController {
     }
 
     @PutMapping("/{scheduleId}")
-    public ResponseEntity<Void> updateSchedule(@PathVariable @Positive(message = "ScheduleId 는 0보다 커야합니다.") Long scheduleId, @RequestBody @Valid ScheduleUpdateRequestDto surDto) {
-        scheduleService.updateSchedule(scheduleId, surDto);
+    public ResponseEntity<Void> updateSchedule(@LoginUser User user, @PathVariable @Positive(message = "ScheduleId 는 0보다 커야합니다.") Long scheduleId, @RequestBody @Valid ScheduleUpdateRequestDto surDto) {
+        scheduleService.updateSchedule(scheduleId, surDto, user);
         return ResponseEntity
                 .status(HttpStatus.NO_CONTENT)
                 .build();
     }
 
     @DeleteMapping("/{scheduleId}")
-    public ResponseEntity<Void> deleteSchedule(@PathVariable @Positive(message = "ScheduleId 는 0보다 커야합니다.") Long scheduleId) {
-        scheduleService.deleteSchedule(scheduleId);
+    public ResponseEntity<Void> deleteSchedule(@LoginUser User user, @PathVariable @Positive(message = "ScheduleId 는 0보다 커야합니다.") Long scheduleId) {
+        scheduleService.deleteSchedule(scheduleId,user);
         return ResponseEntity
                 .status(HttpStatus.NO_CONTENT)
                 .build();

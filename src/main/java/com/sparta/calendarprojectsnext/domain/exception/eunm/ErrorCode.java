@@ -15,9 +15,11 @@ public enum ErrorCode {
     // 401 에러
     LOGIN_FAILED(HttpStatus.UNAUTHORIZED, "로그인 실패", 401),
     INVALID_TOKEN(HttpStatus.UNAUTHORIZED, "유효하지 않은 토큰", 401),
+    ADMIN_KEY_MISMATCH(HttpStatus.UNAUTHORIZED, "유효하지 않은 관리자 키", 401),
 
     // 403 에러
     NOT_CREATOR(HttpStatus.FORBIDDEN, "작성자가 아님", 403),
+    NOT_ADMIN(HttpStatus.FORBIDDEN, "관리자가 아님", 403),
 
     // 404 에러
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 유저", 404),

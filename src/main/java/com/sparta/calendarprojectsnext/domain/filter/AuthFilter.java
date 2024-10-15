@@ -2,7 +2,6 @@ package com.sparta.calendarprojectsnext.domain.filter;
 
 import com.sparta.calendarprojectsnext.domain.exception.CustomException;
 import com.sparta.calendarprojectsnext.domain.jwt.JwtUtil;
-import com.sparta.calendarprojectsnext.domain.user.repository.UserRepository;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -14,7 +13,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.Optional;
 
 import static com.sparta.calendarprojectsnext.domain.exception.eunm.ErrorCode.INVALID_TOKEN;
 import static com.sparta.calendarprojectsnext.domain.exception.eunm.ErrorCode.TOKEN_NOT_FOUND;

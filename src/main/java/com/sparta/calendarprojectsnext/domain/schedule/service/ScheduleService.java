@@ -17,6 +17,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import static com.sparta.calendarprojectsnext.domain.exception.eunm.ErrorCode.NOT_ADMIN;
 import static com.sparta.calendarprojectsnext.domain.exception.eunm.ErrorCode.SCHEDULE_NOT_FOUND;
 
 @Service
@@ -42,12 +43,18 @@ public class ScheduleService {
         return scheduleMapper.scheduleToScheduleReadResponseDto(schedule);
     }
 
-    public void updateSchedule(Long scheduleId, ScheduleUpdateRequestDto surDto) {
+    public void updateSchedule(Long scheduleId, ScheduleUpdateRequestDto surDto, User user) {
+        if (!user.isAdmin()) {
+            throw new CustomException(NOT_ADMIN);
+        }
         Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(() -> new CustomException(SCHEDULE_NOT_FOUND));
         ScheduleCommand.Update.executeUpdate(schedule, surDto);
     }
 
-    public void deleteSchedule(Long scheduleId) {
+    public void deleteSchedule(Long scheduleId, User user) {
+        if (!user.isAdmin()) {
+            throw new CustomException(NOT_ADMIN);
+        }
         Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(() -> new CustomException(SCHEDULE_NOT_FOUND));
         scheduleRepository.delete(schedule);
     }

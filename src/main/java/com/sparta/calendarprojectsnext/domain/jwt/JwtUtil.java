@@ -1,6 +1,6 @@
 package com.sparta.calendarprojectsnext.domain.jwt;
 
-import com.sparta.calendarprojectsnext.domain.user.entity.User;
+import com.sparta.calendarprojectsnext.domain.user.eunm.UserRole;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
@@ -47,13 +47,14 @@ public class JwtUtil {
     }
 
     // 토큰 생성
-    public String createToken(Long id) {
+    public String createToken(Long id, UserRole role) {
         Date date = new Date();
 
         return BEARER_PREFIX +
                 Jwts.builder()
                         .setHeaderParam("typ", "JWT")
                         .setSubject(id.toString()) // 사용자 식별자값(ID)
+                        .claim(AUTHORIZATION_KEY, role)
                         .setExpiration(new Date(date.getTime() + TOKEN_TIME)) // 만료 시간
                         .setIssuedAt(date) // 발급일
                         .signWith(key, signatureAlgorithm) // 암호화 알고리즘

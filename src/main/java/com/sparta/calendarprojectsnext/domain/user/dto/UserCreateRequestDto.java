@@ -20,4 +20,9 @@ public class UserCreateRequestDto {
     @NotBlank(message = "비밀번호가 비어있습니다.")
     @Size(min = 3, max = 20, message = "비밀번호는 3 ~ 20 글자사이로 입력해주세요.")
     private String passWord;
+    private String adminKey;
+
+    public boolean isAdmin() {
+        return adminKey != null;
+    }
 }

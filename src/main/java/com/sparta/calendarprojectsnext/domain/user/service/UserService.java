@@ -24,6 +24,8 @@ public class UserService {
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
 
+    private final String ADMIN_KEY = "AAABnvxRVklrnYxKZ0aHgTBcXukeZygoC";
+
     public UserCreateResponseDto createUser(UserCreateRequestDto ucrDto) {
         if (userRepository.existsByEmail(ucrDto.getEmail())) {
             throw new CustomException(ALREADY_EMAIL_USER);
@@ -31,7 +33,7 @@ public class UserService {
         if (userRepository.existsByUserName(ucrDto.getUserName())) {
             throw new CustomException(ALREADY_USERNAME_USER);
         }
-        User user = UserCommand.Create.toEntity(ucrDto, passwordEncoder);
+        User user = UserCommand.Create.toEntity(ucrDto, passwordEncoder,ADMIN_KEY);
         userRepository.save(user);
         return userMapper.userToUserCreateResponseDto(user);
     }
