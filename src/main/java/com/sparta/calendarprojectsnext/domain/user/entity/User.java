@@ -20,10 +20,12 @@ public class User extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "username", nullable = false, length = 20)
+    @Column(name = "username", nullable = false, length = 20, unique = true)
     private String userName;
     @Column(name = "email", nullable = false, length = 50, unique = true)
     private String email;
+    @Column(name = "password", nullable = false)
+    private String passWord;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<UserSchedule> userSchedules = new ArrayList<>();

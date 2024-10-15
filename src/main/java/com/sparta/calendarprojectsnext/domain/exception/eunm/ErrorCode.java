@@ -20,6 +20,8 @@ public enum ErrorCode {
 
     // 409 에러
     ALREADY_ASSIGN_USER(HttpStatus.CONFLICT, "이미 담당자로 배치된 유저"),
+    ALREADY_EMAIL_USER(HttpStatus.CONFLICT, "이미 사용되는 이메일"),
+    ALREADY_USERNAME_USER(HttpStatus.CONFLICT, "이미 사용되는 이름"),
 
     // 500 에러
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "서버 에러");

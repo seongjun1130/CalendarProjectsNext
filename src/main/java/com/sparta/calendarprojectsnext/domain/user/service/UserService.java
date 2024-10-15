@@ -1,5 +1,6 @@
 package com.sparta.calendarprojectsnext.domain.user.service;
 
+import com.sparta.calendarprojectsnext.domain.config.PasswordEncoder;
 import com.sparta.calendarprojectsnext.domain.exception.CustomException;
 import com.sparta.calendarprojectsnext.domain.user.command.UserCommand;
 import com.sparta.calendarprojectsnext.domain.user.dto.UserCreateRequestDto;
@@ -15,7 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.sparta.calendarprojectsnext.domain.exception.eunm.ErrorCode.USER_NOT_FOUND;
+import static com.sparta.calendarprojectsnext.domain.exception.eunm.ErrorCode.*;
 
 @Service
 @Transactional
@@ -23,9 +24,16 @@ import static com.sparta.calendarprojectsnext.domain.exception.eunm.ErrorCode.US
 public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
 
     public UserCreateResponseDto createUser(UserCreateRequestDto ucrDto) {
-        User user = UserCommand.Create.toEntity(ucrDto);
+        User user = UserCommand.Create.toEntity(ucrDto, passwordEncoder);
+        if (userRepository.existsByEmail(user.getEmail())) {
+            throw new CustomException(ALREADY_EMAIL_USER);
+        }
+        if (userRepository.existsByUserName(user.getUserName())) {
+            throw new CustomException(ALREADY_USERNAME_USER);
+        }
         userRepository.save(user);
         return userMapper.userToUserCreateResponseDto(user);
     }

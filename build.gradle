@@ -38,6 +38,7 @@ dependencies {
     testAnnotationProcessor "org.mapstruct:mapstruct-processor:1.5.2.Final"
     implementation 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
     annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
+    implementation 'at.favre.lib:bcrypt:0.10.2'
 }
 
 tasks.named('test') {
