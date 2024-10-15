@@ -1,5 +1,7 @@
 package com.sparta.calendarprojectsnext.domain.user.service;
 
+import com.sparta.calendarprojectsnext.domain.exception.CustomException;
+import com.sparta.calendarprojectsnext.domain.exception.ErrorCode;
 import com.sparta.calendarprojectsnext.domain.user.command.UserCommand;
 import com.sparta.calendarprojectsnext.domain.user.dto.UserCreateRequestDto;
 import com.sparta.calendarprojectsnext.domain.user.dto.UserCreateResponseDto;
@@ -13,6 +15,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+import static com.sparta.calendarprojectsnext.domain.exception.ErrorCode.USER_NOT_FOUND;
 
 @Service
 @Transactional
@@ -28,7 +32,7 @@ public class UserService {
     }
 
     public UserReadResponseDto getUser(Long userId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new NullPointerException("User not found"));
+        User user = userRepository.findById(userId).orElseThrow(() -> new CustomException(USER_NOT_FOUND));
         return userMapper.userToUserReadResponseDto(user);
     }
 
@@ -37,12 +41,12 @@ public class UserService {
     }
 
     public void updateUser(Long userId, UserUpdateRequestDto uurDto) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new NullPointerException("User not found"));
+        User user = userRepository.findById(userId).orElseThrow(() -> new CustomException(USER_NOT_FOUND));
         UserCommand.Update.executeUpdate(user, uurDto);
     }
 
     public void deleteUser(Long userId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new NullPointerException("User not found"));
+        User user = userRepository.findById(userId).orElseThrow(() -> new CustomException(USER_NOT_FOUND));
         userRepository.delete(user);
     }
 }

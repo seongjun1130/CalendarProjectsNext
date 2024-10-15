@@ -1,5 +1,6 @@
 package com.sparta.calendarprojectsnext.domain.schedule.service;
 
+import com.sparta.calendarprojectsnext.domain.exception.CustomException;
 import com.sparta.calendarprojectsnext.domain.schedule.command.ScheduleCommand;
 import com.sparta.calendarprojectsnext.domain.schedule.dto.*;
 import com.sparta.calendarprojectsnext.domain.schedule.entity.Schedule;
@@ -14,6 +15,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import static com.sparta.calendarprojectsnext.domain.exception.ErrorCode.SCHEDULE_NOT_FOUND;
 
 @Service
 @Transactional
@@ -35,17 +38,17 @@ public class ScheduleService {
     }
 
     public ScheduleReadResponseDto getScheduleById(Long scheduleId) {
-        Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(() -> new NullPointerException("Schedule not found"));
+        Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(() -> new CustomException(SCHEDULE_NOT_FOUND));
         return scheduleMapper.scheduleToScheduleReadResponseDto(schedule);
     }
 
     public void updateSchedule(Long scheduleId, ScheduleUpdateRequestDto surDto) {
-        Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(() -> new NullPointerException("Schedule not found"));
+        Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(() -> new CustomException(SCHEDULE_NOT_FOUND));
         ScheduleCommand.Update.executeUpdate(schedule, surDto);
     }
 
     public void deleteSchedule(Long scheduleId) {
-        Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(() -> new NullPointerException("Schedule not found"));
+        Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(() -> new CustomException(SCHEDULE_NOT_FOUND));
         scheduleRepository.delete(schedule);
     }
 

@@ -3,8 +3,11 @@ package com.sparta.calendarprojectsnext.domain.comment.command;
 import com.sparta.calendarprojectsnext.domain.comment.dto.CommentCreateRequestDto;
 import com.sparta.calendarprojectsnext.domain.comment.dto.CommentUpdateRequestDto;
 import com.sparta.calendarprojectsnext.domain.comment.entity.Comment;
+import com.sparta.calendarprojectsnext.domain.exception.CustomException;
 import com.sparta.calendarprojectsnext.domain.schedule.entity.Schedule;
 import com.sparta.calendarprojectsnext.domain.schedule.repository.ScheduleRepository;
+
+import static com.sparta.calendarprojectsnext.domain.exception.ErrorCode.SCHEDULE_NOT_FOUND;
 
 public class CommentCommand {
     public static class Create {
@@ -12,7 +15,7 @@ public class CommentCommand {
         private static String userName;
 
         public static Comment toEntity(CommentCreateRequestDto ccrDto, ScheduleRepository scheduleRepository) {
-            Schedule schedule = scheduleRepository.findById(ccrDto.getScheduleId()).orElseThrow(() -> new NullPointerException("Schedule not found"));
+            Schedule schedule = scheduleRepository.findById(ccrDto.getScheduleId()).orElseThrow(() -> new CustomException(SCHEDULE_NOT_FOUND));
             comment = ccrDto.getComment();
             userName = ccrDto.getUserName();
             return Comment.builder()

@@ -1,5 +1,6 @@
 package com.sparta.calendarprojectsnext.domain.userschedule.command;
 
+import com.sparta.calendarprojectsnext.domain.exception.CustomException;
 import com.sparta.calendarprojectsnext.domain.schedule.entity.Schedule;
 import com.sparta.calendarprojectsnext.domain.schedule.repository.ScheduleRepository;
 import com.sparta.calendarprojectsnext.domain.user.entity.User;
@@ -9,11 +10,14 @@ import com.sparta.calendarprojectsnext.domain.userschedule.entity.UserSchedule;
 
 import java.time.LocalDateTime;
 
+import static com.sparta.calendarprojectsnext.domain.exception.ErrorCode.SCHEDULE_NOT_FOUND;
+import static com.sparta.calendarprojectsnext.domain.exception.ErrorCode.USER_NOT_FOUND;
+
 public class UserScheduleCommand {
     public static class Create {
         public static UserSchedule toUserSchedule(UserScheduleAssignRequestDto uarDto, ScheduleRepository scheduleRepository, UserRepository userRepository) {
-            Schedule schedule = scheduleRepository.findById(uarDto.getScheduleId()).orElseThrow(() -> new NullPointerException("Schedule not found"));
-            User assignUser = userRepository.findById(uarDto.getAssignUserId()).orElseThrow(() -> new NullPointerException("User Not Found"));
+            Schedule schedule = scheduleRepository.findById(uarDto.getScheduleId()).orElseThrow(() -> new CustomException(SCHEDULE_NOT_FOUND));
+            User assignUser = userRepository.findById(uarDto.getAssignUserId()).orElseThrow(() -> new CustomException(USER_NOT_FOUND));
             return UserSchedule.builder()
                     .schedule(schedule)
                     .user(assignUser)

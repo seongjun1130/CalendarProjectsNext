@@ -1,5 +1,7 @@
 package com.sparta.calendarprojectsnext.domain.userschedule.service;
 
+import com.sparta.calendarprojectsnext.domain.exception.CustomException;
+import com.sparta.calendarprojectsnext.domain.exception.ErrorCode;
 import com.sparta.calendarprojectsnext.domain.schedule.repository.ScheduleRepository;
 import com.sparta.calendarprojectsnext.domain.user.entity.User;
 import com.sparta.calendarprojectsnext.domain.user.repository.UserRepository;
@@ -13,6 +15,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import static com.sparta.calendarprojectsnext.domain.exception.ErrorCode.*;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -24,12 +28,12 @@ public class UserScheduleService {
 
     public UserScheduleAssignResponseDto assignUser(UserScheduleAssignRequestDto uarDto) {
         UserSchedule userSchedule = UserScheduleCommand.Create.toUserSchedule(uarDto, scheduleRepository, userRepository);
-        User creator = userRepository.findById(uarDto.getCreateUserId()).orElseThrow(() -> new NullPointerException("User Not Found"));
+        User creator = userRepository.findById(uarDto.getCreateUserId()).orElseThrow(() -> new CustomException(USER_NOT_FOUND));
         if (userSchedule.isValidateCreator(creator.getId())) {
-            throw new RuntimeException("Only the creator can assign users to this schedule.");
+            throw new CustomException(NOT_CREATOR);
         }
         if (userScheduleRepository.existsByUserIdAndScheduleId(userSchedule.getUser().getId(), userSchedule.getSchedule().getId())) {
-            throw new RuntimeException("User Schedule Already Assigned");
+            throw new CustomException(ALREADY_ASSIGN_USER);
         }
         userScheduleRepository.save(userSchedule);
         return userScheduleMapper.UserScheduleToUserScheduleDto(userSchedule);
