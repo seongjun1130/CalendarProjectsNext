@@ -5,6 +5,8 @@ import com.sparta.calendarprojectsnext.domain.comment.dto.CommentCreateResponseD
 import com.sparta.calendarprojectsnext.domain.comment.dto.CommentReadResponseDto;
 import com.sparta.calendarprojectsnext.domain.comment.service.CommentService;
 import com.sparta.calendarprojectsnext.domain.comment.dto.CommentUpdateRequestDto;
+import com.sparta.calendarprojectsnext.domain.user.entity.User;
+import com.sparta.calendarprojectsnext.domain.user.resolver.util.LoginUser;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
@@ -21,10 +23,10 @@ public class CommentController {
     private final CommentService commentService;
 
     @PostMapping()
-    public ResponseEntity<CommentCreateResponseDto> createComment(@RequestBody @Valid CommentCreateRequestDto ccrDto) {
+    public ResponseEntity<CommentCreateResponseDto> createComment(@LoginUser User user, @RequestBody @Valid CommentCreateRequestDto ccrDto) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(commentService.createComment(ccrDto));
+                .body(commentService.createComment(ccrDto, user));
     }
 
     @GetMapping("/{commentId}")
@@ -35,8 +37,8 @@ public class CommentController {
     }
 
     @PutMapping("/{commentId}")
-    public ResponseEntity<Void> updateComment(@PathVariable Long commentId, @RequestBody @Valid CommentUpdateRequestDto curDto) {
-        commentService.updateComment(commentId, curDto);
+    public ResponseEntity<Void> updateComment(@LoginUser User user, @PathVariable Long commentId, @RequestBody @Valid CommentUpdateRequestDto curDto) {
+        commentService.updateComment(user, commentId, curDto);
         return ResponseEntity
                 .status(HttpStatus.NO_CONTENT)
                 .build();

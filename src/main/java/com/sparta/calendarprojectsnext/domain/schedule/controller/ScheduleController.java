@@ -2,6 +2,8 @@ package com.sparta.calendarprojectsnext.domain.schedule.controller;
 
 import com.sparta.calendarprojectsnext.domain.schedule.dto.*;
 import com.sparta.calendarprojectsnext.domain.schedule.service.ScheduleService;
+import com.sparta.calendarprojectsnext.domain.user.entity.User;
+import com.sparta.calendarprojectsnext.domain.user.resolver.util.LoginUser;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
@@ -20,10 +22,10 @@ public class ScheduleController {
     private final ScheduleService scheduleService;
 
     @PostMapping()
-    public ResponseEntity<ScheduleCreateResponseDto> createsSchedule(@Valid @RequestBody ScheduleCreateRequestDto scrDto) {
+    public ResponseEntity<ScheduleCreateResponseDto> createsSchedule(@LoginUser User user, @Valid @RequestBody ScheduleCreateRequestDto scrDto) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(scheduleService.createSchedule(scrDto));
+                .body(scheduleService.createSchedule(user, scrDto));
     }
 
     @GetMapping()

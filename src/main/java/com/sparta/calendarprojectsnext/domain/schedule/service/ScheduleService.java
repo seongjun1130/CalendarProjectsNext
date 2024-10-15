@@ -6,6 +6,7 @@ import com.sparta.calendarprojectsnext.domain.schedule.dto.*;
 import com.sparta.calendarprojectsnext.domain.schedule.entity.Schedule;
 import com.sparta.calendarprojectsnext.domain.schedule.mapper.ScheduleMapper;
 import com.sparta.calendarprojectsnext.domain.schedule.repository.ScheduleRepository;
+import com.sparta.calendarprojectsnext.domain.user.entity.User;
 import com.sparta.calendarprojectsnext.domain.user.repository.UserRepository;
 import com.sparta.calendarprojectsnext.domain.userschedule.entity.UserSchedule;
 import com.sparta.calendarprojectsnext.domain.userschedule.repository.UserScheduleRepository;
@@ -24,13 +25,12 @@ import static com.sparta.calendarprojectsnext.domain.exception.eunm.ErrorCode.SC
 public class ScheduleService {
 
     private final ScheduleRepository scheduleRepository;
-    private final UserRepository userRepository;
     private final UserScheduleRepository userScheduleRepository;
     private final ScheduleMapper scheduleMapper;
 
 
-    public ScheduleCreateResponseDto createSchedule(ScheduleCreateRequestDto scrDto) {
-        Schedule schedule = ScheduleCommand.Create.toSchedule(scrDto, userRepository);
+    public ScheduleCreateResponseDto createSchedule(User user, ScheduleCreateRequestDto scrDto) {
+        Schedule schedule = ScheduleCommand.Create.toSchedule(scrDto, user);
         scheduleRepository.save(schedule);
         UserSchedule userSchedule = ScheduleCommand.Create.toUserSchedule(schedule);
         userScheduleRepository.save(userSchedule);

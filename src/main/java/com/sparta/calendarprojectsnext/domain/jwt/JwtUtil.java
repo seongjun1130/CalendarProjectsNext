@@ -14,10 +14,12 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.security.Key;
 import java.util.Base64;
 import java.util.Date;
+import java.util.Optional;
 
 @Component
 public class JwtUtil {
@@ -45,13 +47,13 @@ public class JwtUtil {
     }
 
     // 토큰 생성
-    public String createToken(String email) {
+    public String createToken(Long id) {
         Date date = new Date();
 
         return BEARER_PREFIX +
                 Jwts.builder()
                         .setHeaderParam("typ", "JWT")
-                        .setSubject(email) // 사용자 식별자값(ID)
+                        .setSubject(id.toString()) // 사용자 식별자값(ID)
                         .setExpiration(new Date(date.getTime() + TOKEN_TIME)) // 만료 시간
                         .setIssuedAt(date) // 발급일
                         .signWith(key, signatureAlgorithm) // 암호화 알고리즘
@@ -80,6 +82,27 @@ public class JwtUtil {
         }
         logger.error("Not Found Token");
         throw new NullPointerException("Not Found Token");
+    }
+
+    public Optional<Cookie[]> getCookies(HttpServletRequest req) {
+        return Optional.ofNullable(req.getCookies());
+    }
+
+    // HttpServletRequest 에서 Cookie Value : JWT 가져오기
+    public String getTokenFromRequest(HttpServletRequest req) {
+        Cookie[] cookies = req.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals(AUTHORIZATION_HEADER)) {
+                    try {
+                        return URLDecoder.decode(cookie.getValue(), "UTF-8"); // Encode 되어 넘어간 Value 다시 Decode
+                    } catch (UnsupportedEncodingException e) {
+                        return null;
+                    }
+                }
+            }
+        }
+        return null;
     }
 
     // 토큰 검증

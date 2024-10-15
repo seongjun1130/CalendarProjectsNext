@@ -37,9 +37,9 @@ public class UserService {
     }
 
     public UserLoginResponseDto logIn(UserLoginRequestDto ulrDto) {
-        User user = userRepository.findByEmail(ulrDto.getEmail()).orElseThrow(() -> new CustomException(USER_NOT_FOUND));
+        User user = userRepository.findByEmail(ulrDto.getEmail()).orElseThrow(() -> new CustomException(LOGIN_FAILED));
         if (!user.isValidPassword(ulrDto.getPassWord(), passwordEncoder)) {
-            throw new CustomException(USER_INFO_MISMATCH);
+            throw new CustomException(LOGIN_FAILED);
         }
         return userMapper.userToUserLoginResponseDto(user);
     }
@@ -61,5 +61,9 @@ public class UserService {
     public void deleteUser(Long userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new CustomException(USER_NOT_FOUND));
         userRepository.delete(user);
+    }
+
+    public User getLogInUser(String token) {
+        return userRepository.findById(Long.valueOf(token)).orElseThrow(() -> new CustomException(USER_NOT_FOUND));
     }
 }

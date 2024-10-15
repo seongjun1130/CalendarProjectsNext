@@ -1,16 +1,13 @@
 package com.sparta.calendarprojectsnext.domain.schedule.command;
 
-import com.sparta.calendarprojectsnext.domain.exception.CustomException;
 import com.sparta.calendarprojectsnext.domain.schedule.dto.ScheduleCreateRequestDto;
 import com.sparta.calendarprojectsnext.domain.schedule.dto.ScheduleUpdateRequestDto;
 import com.sparta.calendarprojectsnext.domain.schedule.entity.Schedule;
 import com.sparta.calendarprojectsnext.domain.user.entity.User;
-import com.sparta.calendarprojectsnext.domain.user.repository.UserRepository;
 import com.sparta.calendarprojectsnext.domain.userschedule.entity.UserSchedule;
 
 import java.time.LocalDateTime;
 
-import static com.sparta.calendarprojectsnext.domain.exception.eunm.ErrorCode.USER_NOT_FOUND;
 
 public class ScheduleCommand {
 
@@ -18,8 +15,7 @@ public class ScheduleCommand {
         private static String title;
         private static String scheduleDetails;
 
-        public static Schedule toSchedule(ScheduleCreateRequestDto scrDto, UserRepository userRepository) {
-            User user = userRepository.findById(scrDto.getUserId()).orElseThrow(() -> new CustomException(USER_NOT_FOUND));
+        public static Schedule toSchedule(ScheduleCreateRequestDto scrDto, User user) {
             title = scrDto.getTitle();
             scheduleDetails = scrDto.getScheduleDetails();
             return Schedule.builder()

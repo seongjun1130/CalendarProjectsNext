@@ -23,7 +23,7 @@ public class UserController {
     private final UserService userService;
     private final JwtUtil jwtUtil;
 
-    @PostMapping()
+    @PostMapping("/registration")
     public ResponseEntity<UserCreateResponseDto> createUser(@Valid @RequestBody UserCreateRequestDto ucrDto) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
@@ -33,7 +33,7 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<UserLoginResponseDto> logIn(@Valid @RequestBody UserLoginRequestDto ulrDto, HttpServletResponse res) {
         UserLoginResponseDto resDto = userService.logIn(ulrDto);
-        String token = jwtUtil.createToken(ulrDto.getEmail());
+        String token = jwtUtil.createToken(resDto.getId());
         jwtUtil.addJwtToCookie(token, res);
         resDto.setToken(token);
         return ResponseEntity.status(HttpStatus.OK).body(resDto);

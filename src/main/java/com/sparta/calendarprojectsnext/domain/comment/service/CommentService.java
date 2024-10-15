@@ -10,6 +10,7 @@ import com.sparta.calendarprojectsnext.domain.comment.mapper.CommentMapper;
 import com.sparta.calendarprojectsnext.domain.comment.repository.CommentRepository;
 import com.sparta.calendarprojectsnext.domain.exception.CustomException;
 import com.sparta.calendarprojectsnext.domain.schedule.repository.ScheduleRepository;
+import com.sparta.calendarprojectsnext.domain.user.entity.User;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,15 +26,15 @@ public class CommentService {
     private final ScheduleRepository scheduleRepository;
     private final CommentMapper commentMapper;
 
-    public CommentCreateResponseDto createComment(CommentCreateRequestDto ccrDto) {
-        Comment comment = CommentCommand.Create.toEntity(ccrDto, scheduleRepository);
+    public CommentCreateResponseDto createComment(CommentCreateRequestDto ccrDto, User user) {
+        Comment comment = CommentCommand.Create.toEntity(ccrDto, scheduleRepository, user);
         commentRepository.save(comment);
         return commentMapper.commentToCommentCreateResponseDto(comment);
     }
 
-    public void updateComment(Long commentId, CommentUpdateRequestDto curDto) {
+    public void updateComment(User user, Long commentId, CommentUpdateRequestDto curDto) {
         Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new CustomException(COMMENT_NOT_FOUND));
-        CommentCommand.Update.executeUpdate(comment, curDto);
+        CommentCommand.Update.executeUpdate(user,comment, curDto);
     }
 
     public void deleteComment(Long commentId) {
