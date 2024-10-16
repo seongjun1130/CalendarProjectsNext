@@ -30,10 +30,4 @@ public class GlobalExceptionHandler {
         log.error("url:{}, trace:{}", req.getRequestURI(), e.getStackTrace());
         return new ResponseEntity<>(new ErrorDto((HttpStatus) e.getStatusCode(), Objects.requireNonNull(e.getBindingResult().getFieldError()).getDefaultMessage()), HttpStatus.valueOf(e.getStatusCode().value()));
     }
-
-    @ExceptionHandler({Exception.class})
-    protected ResponseEntity<ErrorDto> handleServerException(Exception e, HttpServletRequest req) {
-        log.error("url:{}, trace:{}", req.getRequestURI(), e.getStackTrace());
-        return new ResponseEntity<>(new ErrorDto(INTERNAL_SERVER_ERROR.getCode(), INTERNAL_SERVER_ERROR.getDescription()), HttpStatus.INTERNAL_SERVER_ERROR);
-    }
 }
