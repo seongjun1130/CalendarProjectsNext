@@ -54,14 +54,27 @@ public class UserService {
         return userRepository.findAll().stream().map(userMapper::userToUserReadResponseDto).toList();
     }
 
-    public void updateUser(Long userId, UserUpdateRequestDto uurDto) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new CustomException(USER_NOT_FOUND));
+    public void updateUser(User user, UserUpdateRequestDto uurDto) {
+        if (userRepository.existsByEmail(uurDto.getEmail())) {
+            throw new CustomException(ALREADY_EMAIL_USER);
+        }
+        if (userRepository.existsByUserName(uurDto.getUserName())) {
+            throw new CustomException(ALREADY_USERNAME_USER);
+        }
         UserCommand.Update.executeUpdate(user, uurDto);
     }
 
     public void deleteUser(Long userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new CustomException(USER_NOT_FOUND));
         userRepository.delete(user);
+    }
+
+    public void kickUser(User user, Long kickUserId) {
+        if (!user.isAdmin()) {
+            throw new CustomException(NOT_ADMIN);
+        }
+        User kickUser = userRepository.findById(kickUserId).orElseThrow(() -> new CustomException(USER_NOT_FOUND));
+        userRepository.delete(kickUser);
     }
 
     public User getLogInUser(String token) {

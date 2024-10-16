@@ -62,17 +62,25 @@ public class UserController {
                 .body(userService.getUser(userId));
     }
 
-    @PutMapping("/{userId}")
-    public ResponseEntity<Void> updateUser(@PathVariable @Positive(message = "UserId 는 0보다 커야합니다.") Long userId, @Valid @RequestBody UserUpdateRequestDto uurDto) {
-        userService.updateUser(userId, uurDto);
+    @PutMapping("/my_profile")
+    public ResponseEntity<Void> updateUser(@LoginUser User user, @Valid @RequestBody UserUpdateRequestDto uurDto) {
+        userService.updateUser(user, uurDto);
         return ResponseEntity
                 .status(HttpStatus.NO_CONTENT)
                 .build();
     }
 
     @DeleteMapping("/{userId}")
-    public ResponseEntity<Void> deleteUser(@PathVariable @Positive(message = "UserId 는 0보다 커야합니다.") Long userId) {
-        userService.deleteUser(userId);
+    public ResponseEntity<Void> deleteUser(@LoginUser User user, @PathVariable @Positive(message = "UserId 는 0보다 커야합니다.") Long kickUserId) {
+        userService.kickUser(user, kickUserId);
+        return ResponseEntity
+                .status(HttpStatus.NO_CONTENT)
+                .build();
+    }
+
+    @DeleteMapping("/my_profile")
+    public ResponseEntity<Void> deleteMyProfile(@LoginUser User user) {
+        userService.deleteUser(user.getId());
         return ResponseEntity
                 .status(HttpStatus.NO_CONTENT)
                 .build();

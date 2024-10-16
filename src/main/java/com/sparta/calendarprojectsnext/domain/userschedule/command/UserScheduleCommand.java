@@ -6,7 +6,9 @@ import com.sparta.calendarprojectsnext.domain.schedule.repository.ScheduleReposi
 import com.sparta.calendarprojectsnext.domain.user.entity.User;
 import com.sparta.calendarprojectsnext.domain.user.repository.UserRepository;
 import com.sparta.calendarprojectsnext.domain.userschedule.dto.UserScheduleAssignRequestDto;
+import com.sparta.calendarprojectsnext.domain.userschedule.dto.UserScheduleDeleteUserRequestDto;
 import com.sparta.calendarprojectsnext.domain.userschedule.entity.UserSchedule;
+import com.sparta.calendarprojectsnext.domain.userschedule.repository.UserScheduleRepository;
 
 import java.time.LocalDateTime;
 

@@ -25,6 +25,8 @@ public enum ErrorCode {
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 유저", 404),
     SCHEDULE_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 일정", 404),
     COMMENT_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 댓글", 404),
+    ASSIGN_USER_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 담당자", 404),
+    USER_SCHEDULE_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 중간테이블", 404),
 
     // 409 에러
     ALREADY_ASSIGN_USER(HttpStatus.CONFLICT, "이미 담당자로 배치된 유저", 409),

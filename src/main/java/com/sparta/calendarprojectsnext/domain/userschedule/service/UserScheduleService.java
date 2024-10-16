@@ -7,12 +7,16 @@ import com.sparta.calendarprojectsnext.domain.user.repository.UserRepository;
 import com.sparta.calendarprojectsnext.domain.userschedule.command.UserScheduleCommand;
 import com.sparta.calendarprojectsnext.domain.userschedule.dto.UserScheduleAssignRequestDto;
 import com.sparta.calendarprojectsnext.domain.userschedule.dto.UserScheduleAssignResponseDto;
+import com.sparta.calendarprojectsnext.domain.userschedule.dto.UserScheduleDeleteUserRequestDto;
+import com.sparta.calendarprojectsnext.domain.userschedule.dto.UserScheduleDeleteUserResponseDto;
 import com.sparta.calendarprojectsnext.domain.userschedule.entity.UserSchedule;
 import com.sparta.calendarprojectsnext.domain.userschedule.mapper.UserScheduleMapper;
 import com.sparta.calendarprojectsnext.domain.userschedule.repository.UserScheduleRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 import static com.sparta.calendarprojectsnext.domain.exception.eunm.ErrorCode.*;
 
@@ -25,10 +29,9 @@ public class UserScheduleService {
     private final ScheduleRepository scheduleRepository;
     private final UserScheduleMapper userScheduleMapper;
 
-    public UserScheduleAssignResponseDto assignUser(UserScheduleAssignRequestDto uarDto) {
+    public UserScheduleAssignResponseDto assignUser(User user, UserScheduleAssignRequestDto uarDto) {
         UserSchedule userSchedule = UserScheduleCommand.Create.toUserSchedule(uarDto, scheduleRepository, userRepository);
-        User creator = userRepository.findById(uarDto.getCreateUserId()).orElseThrow(() -> new CustomException(USER_NOT_FOUND));
-        if (userSchedule.isValidateCreator(creator.getId())) {
+        if (userSchedule.isValidateCreator(user.getId())) {
             throw new CustomException(NOT_CREATOR);
         }
         if (userScheduleRepository.existsByUserIdAndScheduleId(userSchedule.getUser().getId(), userSchedule.getSchedule().getId())) {
@@ -38,4 +41,16 @@ public class UserScheduleService {
         return userScheduleMapper.UserScheduleToUserScheduleDto(userSchedule);
     }
 
+    public UserScheduleDeleteUserResponseDto deleteUser(User user, UserScheduleDeleteUserRequestDto sduDto) {
+        UserSchedule userSchedule = userScheduleRepository.findByUserIdAndScheduleId(sduDto.getDeleteUserId(), sduDto.getScheduleId()).orElseThrow(() -> new CustomException(USER_SCHEDULE_NOT_FOUND));
+        if (userSchedule.isValidateCreator(user.getId())) {
+            throw new CustomException(NOT_CREATOR);
+        }
+        if (!userScheduleRepository.existsByUserIdAndRole(userSchedule.getUser().getId(), userSchedule.getRole())) {
+            throw new CustomException(ASSIGN_USER_NOT_FOUND);
+        }
+        UserScheduleDeleteUserResponseDto sdrDto = userScheduleMapper.UserScheduleToUserScheduleDeleteDto(userSchedule);
+        userScheduleRepository.delete(userSchedule);
+        return sdrDto;
+    }
 }
