@@ -1,5 +1,6 @@
 package com.sparta.calendarprojectsnext.domain.schedule.service;
 
+import com.sparta.calendarprojectsnext.domain.client.service.WeatherService;
 import com.sparta.calendarprojectsnext.domain.exception.CustomException;
 import com.sparta.calendarprojectsnext.domain.schedule.command.ScheduleCommand;
 import com.sparta.calendarprojectsnext.domain.schedule.dto.*;
@@ -28,10 +29,11 @@ public class ScheduleService {
     private final ScheduleRepository scheduleRepository;
     private final UserScheduleRepository userScheduleRepository;
     private final ScheduleMapper scheduleMapper;
+    private final WeatherService weatherService;
 
 
     public ScheduleCreateResponseDto createSchedule(User user, ScheduleCreateRequestDto scrDto) {
-        Schedule schedule = ScheduleCommand.Create.toSchedule(scrDto, user);
+        Schedule schedule = ScheduleCommand.Create.toSchedule(scrDto, user, weatherService);
         scheduleRepository.save(schedule);
         UserSchedule userSchedule = ScheduleCommand.Create.toUserSchedule(schedule);
         userScheduleRepository.save(userSchedule);

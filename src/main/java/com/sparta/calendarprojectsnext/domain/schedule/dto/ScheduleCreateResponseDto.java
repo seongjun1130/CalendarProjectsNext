@@ -14,6 +14,7 @@ public class ScheduleCreateResponseDto {
     private Long userId;
     private String title;
     private String scheduleDetails;
+    private String weather;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 }

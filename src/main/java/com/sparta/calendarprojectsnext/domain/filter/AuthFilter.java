@@ -43,6 +43,6 @@ public class AuthFilter extends OncePerRequestFilter {
 
     private boolean isFilterApplicable(HttpServletRequest req) {
         String path = req.getRequestURI();
-        return path.startsWith("/user/registration") || path.startsWith("/user/login");
+        return path.startsWith("/user/registration") || path.startsWith("/user/login") || path.startsWith("/api");
     }
 }

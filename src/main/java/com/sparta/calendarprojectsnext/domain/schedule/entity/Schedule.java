@@ -25,7 +25,8 @@ public class Schedule extends Auditable {
     private String title;
     @Column(name = "scheduledetails", nullable = false)
     private String scheduleDetails;
-
+    @Column(name = "weather", nullable = false)
+    private String weather;
     @OneToMany(mappedBy = "schedule", cascade = CascadeType.REMOVE)
     private List<Comment> commentList = new ArrayList<>();
 
