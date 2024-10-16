@@ -73,6 +73,9 @@ public class UserService {
         if (!user.isAdmin()) {
             throw new CustomException(NOT_ADMIN);
         }
+        if (kickUserId.equals(user.getId())) {
+            throw new CustomException(NOT_KICK_SELF);
+        }
         User kickUser = userRepository.findById(kickUserId).orElseThrow(() -> new CustomException(USER_NOT_FOUND));
         userRepository.delete(kickUser);
     }
