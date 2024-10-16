@@ -11,6 +11,7 @@ public enum ErrorCode {
     NOT_NULL(HttpStatus.BAD_REQUEST, "필수 값 누락", 400),
     USER_INFO_MISMATCH(HttpStatus.BAD_REQUEST, "사용자 정보 오류", 400),
     TOKEN_NOT_FOUND(HttpStatus.BAD_REQUEST, "토큰이 존재하지 않음", 400),
+    NOT_KICK_SELF(HttpStatus.BAD_REQUEST, "자기자신을 강퇴할 수 없음", 400),
 
     // 401 에러
     LOGIN_FAILED(HttpStatus.UNAUTHORIZED, "로그인 실패", 401),

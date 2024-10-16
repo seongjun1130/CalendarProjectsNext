@@ -1,6 +1,7 @@
 package com.sparta.calendarprojectsnext.domain.filter;
 
 import com.sparta.calendarprojectsnext.domain.exception.CustomException;
+import com.sparta.calendarprojectsnext.domain.exception.UnAuthorizationException;
 import com.sparta.calendarprojectsnext.domain.jwt.JwtUtil;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,7 +20,7 @@ import static com.sparta.calendarprojectsnext.domain.exception.eunm.ErrorCode.TO
 
 @Slf4j(topic = "AuthFilter")
 @Component
-@Order(2)
+@Order(1)
 @RequiredArgsConstructor
 public class AuthFilter extends OncePerRequestFilter {
     private final JwtUtil jwtUtil;
@@ -32,11 +33,11 @@ public class AuthFilter extends OncePerRequestFilter {
         }
         String tokenValue = jwtUtil.getTokenFromRequest(req);
         if (!StringUtils.hasText(tokenValue)) {
-            throw new CustomException(TOKEN_NOT_FOUND);
+            throw new UnAuthorizationException(TOKEN_NOT_FOUND);
         }
         String accessToken = jwtUtil.substringToken(tokenValue);
         if (!jwtUtil.validateToken(accessToken)) {
-            throw new CustomException(INVALID_TOKEN);
+            throw new UnAuthorizationException(INVALID_TOKEN);
         }
         chain.doFilter(req, res);
     }

@@ -1,6 +1,7 @@
 package com.sparta.calendarprojectsnext.domain.filter;
 
 import com.sparta.calendarprojectsnext.domain.exception.CustomException;
+import com.sparta.calendarprojectsnext.domain.exception.UnAuthorizationException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,7 +20,7 @@ public class AuthenticationExceptionHandlerFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws ServletException, IOException {
         try {
             chain.doFilter(req, res);
-        } catch (CustomException e) {
+        } catch (UnAuthorizationException e) {
             if (!res.isCommitted()) {
                 res.setStatus(e.getErrorCode().getStatus());
                 res.setContentType("application/json");

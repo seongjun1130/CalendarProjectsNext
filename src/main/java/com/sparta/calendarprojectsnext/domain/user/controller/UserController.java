@@ -70,7 +70,7 @@ public class UserController {
                 .build();
     }
 
-    @DeleteMapping("/{userId}")
+    @DeleteMapping("/{kickUserId}")
     public ResponseEntity<Void> deleteUser(@LoginUser User user, @PathVariable @Positive(message = "UserId 는 0보다 커야합니다.") Long kickUserId) {
         userService.kickUser(user, kickUserId);
         return ResponseEntity
