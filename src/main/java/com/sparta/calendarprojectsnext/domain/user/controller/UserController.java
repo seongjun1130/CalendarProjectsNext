@@ -2,6 +2,8 @@ package com.sparta.calendarprojectsnext.domain.user.controller;
 
 import com.sparta.calendarprojectsnext.domain.jwt.JwtUtil;
 import com.sparta.calendarprojectsnext.domain.user.dto.*;
+import com.sparta.calendarprojectsnext.domain.user.entity.User;
+import com.sparta.calendarprojectsnext.domain.user.resolver.util.LoginUser;
 import com.sparta.calendarprojectsnext.domain.user.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -44,6 +46,13 @@ public class UserController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(userService.getUserList());
+    }
+
+    @GetMapping("/my_profile")
+    public ResponseEntity<UserReadResponseDto> getMyProfile(@LoginUser User user) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(userService.getUser(user.getId()));
     }
 
     @GetMapping("/{userId}")

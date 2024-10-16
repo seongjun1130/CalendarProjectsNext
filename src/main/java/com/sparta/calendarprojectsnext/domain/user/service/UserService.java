@@ -12,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 import static com.sparta.calendarprojectsnext.domain.exception.eunm.ErrorCode.*;
 
@@ -33,7 +32,7 @@ public class UserService {
         if (userRepository.existsByUserName(ucrDto.getUserName())) {
             throw new CustomException(ALREADY_USERNAME_USER);
         }
-        User user = UserCommand.Create.toEntity(ucrDto, passwordEncoder,ADMIN_KEY);
+        User user = UserCommand.Create.toEntity(ucrDto, passwordEncoder, ADMIN_KEY);
         userRepository.save(user);
         return userMapper.userToUserCreateResponseDto(user);
     }
