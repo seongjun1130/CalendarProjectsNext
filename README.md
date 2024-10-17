@@ -51,9 +51,9 @@
 ## Communication
 - ### Main blog
 https://velog.io/@lionjojo/posts
-- ### Main project Documentation
+- ### Project Main Documentation
 https://velog.io/@lionjojo/CalendarProjects-Next
-- ### project troubleshooting
+- ### Project troubleshooting
 https://velog.io/@lionjojo/Spring-Calendar-Next-%ED%8A%B8%EB%9F%AC%EB%B8%94%EC%8A%88%ED%8C%85
 
 ## Architecture
