@@ -1,5 +1,6 @@
 #     CalendarProjects Next 📝
 이 프로젝트는 사용자들에게 일정 관리 기능을 제공하는 Calendar API입니다. Spring Boot를 기반으로 개발되었으며, JPA를 통해 데이터베이스와 상호작용하고, JWT를 이용해 안전한 사용자 인증 시스템을 구현하였습니다. 이 API는 기본적인 일정 생성, 조회, 수정, 삭제(CRUD) 기능뿐만 아니라, 일정에 담당자를 지정하는 기능도 제공합니다. 또한, 각 일정에 댓글을 추가함으로써 사용자 간의 소통을 강화하고, 일정 생성 시 해당 날짜의 날씨 정보를 외부 API로 받아와 저장하는 기능을 통해 더욱 풍부한 사용자 경험을 제공합니다. 이 모든 기능은 RESTful 아키텍처에 기반해 설계되었으며, 데이터를 주고받는 포맷으로는 JSON을 사용하여 확장성과 유지 보수성을 고려한 효율적인 시스템을 구축하였습니다.
+
 해당 프로그램은 하단 구현 가이드라인에 초점을 맞추어 구현하였습니다.
 
 [![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fseongjun1130%2FCalendarProjectsNext&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://github.com/seongjun1130)
