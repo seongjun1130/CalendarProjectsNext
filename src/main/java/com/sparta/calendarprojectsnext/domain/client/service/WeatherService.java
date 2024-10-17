@@ -1,6 +1,7 @@
 package com.sparta.calendarprojectsnext.domain.client.service;
 
 import com.sparta.calendarprojectsnext.domain.client.dto.WeatherResponseDto;
+import com.sparta.calendarprojectsnext.domain.exception.CustomException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -14,6 +15,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.sparta.calendarprojectsnext.domain.exception.eunm.ErrorCode.WEATHER_NOT_FOUND;
 
 @Service
 public class WeatherService {
@@ -33,7 +36,7 @@ public class WeatherService {
                 .build()
                 .toUri();
         ResponseEntity<String> response = restTemplate.getForEntity(uri, String.class);
-        return fromJSONtoItems(response.getBody()).stream().filter(weatherResponseDto -> weatherResponseDto.getDate().equals(date)).map(WeatherResponseDto::getWeather).findFirst().orElseThrow(NullPointerException::new);
+        return fromJSONtoItems(response.getBody()).stream().filter(weatherResponseDto -> weatherResponseDto.getDate().equals(date)).map(WeatherResponseDto::getWeather).findFirst().orElseThrow(() -> new CustomException(WEATHER_NOT_FOUND));
     }
 
     public List<WeatherResponseDto> fromJSONtoItems(String responseEntity) {
