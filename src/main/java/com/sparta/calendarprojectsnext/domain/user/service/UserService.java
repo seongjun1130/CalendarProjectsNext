@@ -12,6 +12,7 @@ import com.sparta.calendarprojectsnext.domain.user.mapper.UserMapper;
 import com.sparta.calendarprojectsnext.domain.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -92,11 +93,11 @@ public class UserService {
   }
 
   private void validateUserUniqueness(String email, String userName) {
-    if (userRepository.existsByEmail(email)) {
-      throw new CustomException(ALREADY_EMAIL_USER);
-    }
-    if (userRepository.existsByUserName(userName)) {
-      throw new CustomException(ALREADY_USERNAME_USER);
+    Optional<User> foundUser = userRepository.findByEmailOrUserName(email, userName);
+    if (foundUser.isPresent()) {
+      User existingUser = foundUser.get();
+      existingUser.validateUniqueEmail(email);
+      existingUser.validateUniqueUserName(userName);
     }
   }
 }

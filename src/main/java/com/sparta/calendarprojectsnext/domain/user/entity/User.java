@@ -1,7 +1,5 @@
 package com.sparta.calendarprojectsnext.domain.user.entity;
 
-import static com.sparta.calendarprojectsnext.domain.exception.eunm.ErrorCode.NOT_ADMIN;
-
 import com.sparta.calendarprojectsnext.domain.audit.Auditable;
 import com.sparta.calendarprojectsnext.domain.config.PasswordEncoder;
 import com.sparta.calendarprojectsnext.domain.exception.CustomException;
@@ -12,6 +10,8 @@ import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.*;
+
+import static com.sparta.calendarprojectsnext.domain.exception.eunm.ErrorCode.*;
 
 @Setter
 @Getter
@@ -51,6 +51,18 @@ public class User extends Auditable {
   public void isAdmin() {
     if (!role.equals(UserRole.ADMIN)) {
       throw new CustomException(NOT_ADMIN);
+    }
+  }
+
+  public void validateUniqueEmail(String email) {
+    if (this.email.equals(email)) {
+      throw new CustomException(ALREADY_EMAIL_USER);
+    }
+  }
+
+  public void validateUniqueUserName(String userName) {
+    if (this.userName.equals(userName)) {
+      throw new CustomException(ALREADY_USERNAME_USER);
     }
   }
 }
