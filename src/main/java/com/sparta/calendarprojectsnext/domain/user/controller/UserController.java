@@ -26,18 +26,18 @@ public class UserController {
     private final JwtUtil jwtUtil;
 
     @PostMapping("/registration")
-    public ResponseEntity<UserCreateResponseDto> createUser(@Valid @RequestBody UserCreateRequestDto ucrDto) {
+    public ResponseEntity<UserCreateResponseDto> createUser(@Valid @RequestBody UserCreateRequestDto ucrDto, HttpServletResponse res) {
+        UserCreateResponseDto resDto = userService.createUser(ucrDto);
+        jwtUtil.addJwtToCookie(resDto.getToken(), res);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(userService.createUser(ucrDto));
+                .body(resDto);
     }
 
     @PostMapping("/login")
     public ResponseEntity<UserLoginResponseDto> logIn(@Valid @RequestBody UserLoginRequestDto ulrDto, HttpServletResponse res) {
         UserLoginResponseDto resDto = userService.logIn(ulrDto);
-        String token = jwtUtil.createToken(resDto.getId(), resDto.getRole());
-        jwtUtil.addJwtToCookie(token, res);
-        resDto.setToken(token);
+        jwtUtil.addJwtToCookie(resDto.getToken(), res);
         return ResponseEntity.status(HttpStatus.OK).body(resDto);
     }
 

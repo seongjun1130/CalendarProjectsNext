@@ -16,4 +16,5 @@ public class UserCreateResponseDto {
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
     private String role;
+    private String token;
 }

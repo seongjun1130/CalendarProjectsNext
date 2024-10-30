@@ -2,6 +2,7 @@ package com.sparta.calendarprojectsnext.domain.user.service;
 
 import com.sparta.calendarprojectsnext.domain.config.PasswordEncoder;
 import com.sparta.calendarprojectsnext.domain.exception.CustomException;
+import com.sparta.calendarprojectsnext.domain.jwt.JwtUtil;
 import com.sparta.calendarprojectsnext.domain.user.command.UserCommand;
 import com.sparta.calendarprojectsnext.domain.user.dto.*;
 import com.sparta.calendarprojectsnext.domain.user.entity.User;
@@ -22,6 +23,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
 
     private final String ADMIN_KEY = "AAABnvxRVklrnYxKZ0aHgTBcXukeZygoC";
 
@@ -34,7 +36,10 @@ public class UserService {
         }
         User user = UserCommand.Create.toEntity(ucrDto, passwordEncoder, ADMIN_KEY);
         userRepository.save(user);
-        return userMapper.userToUserCreateResponseDto(user);
+        String token = jwtUtil.createToken(user.getId(), user.getRole());
+        UserCreateResponseDto resDto = userMapper.userToUserCreateResponseDto(user);
+        resDto.setToken(token);
+        return resDto;
     }
 
     public UserLoginResponseDto logIn(UserLoginRequestDto ulrDto) {
@@ -42,7 +47,10 @@ public class UserService {
         if (!user.isValidPassword(ulrDto.getPassWord(), passwordEncoder)) {
             throw new CustomException(LOGIN_FAILED);
         }
-        return userMapper.userToUserLoginResponseDto(user);
+        String token = jwtUtil.createToken(user.getId(), user.getRole());
+        UserLoginResponseDto resDto = userMapper.userToUserLoginResponseDto(user);
+        resDto.setToken(token);
+        return resDto;
     }
 
     public UserReadResponseDto getUser(Long userId) {
