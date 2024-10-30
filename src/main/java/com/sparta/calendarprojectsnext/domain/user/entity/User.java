@@ -2,6 +2,7 @@ package com.sparta.calendarprojectsnext.domain.user.entity;
 
 import com.sparta.calendarprojectsnext.domain.audit.Auditable;
 import com.sparta.calendarprojectsnext.domain.config.PasswordEncoder;
+import com.sparta.calendarprojectsnext.domain.exception.CustomException;
 import com.sparta.calendarprojectsnext.domain.schedule.entity.Schedule;
 import com.sparta.calendarprojectsnext.domain.user.eunm.UserRole;
 import com.sparta.calendarprojectsnext.domain.userschedule.entity.UserSchedule;
@@ -10,6 +11,8 @@ import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.sparta.calendarprojectsnext.domain.exception.eunm.ErrorCode.NOT_ADMIN;
 
 @Setter
 @Getter
@@ -41,7 +44,9 @@ public class User extends Auditable {
         return pwEncoder.matches(password, passWord);
     }
 
-    public boolean isAdmin() {
-        return role.equals(UserRole.ADMIN);
+    public void isAdmin() {
+        if(!role.equals(UserRole.ADMIN)) {
+            throw new CustomException(NOT_ADMIN);
+        }
     }
 }

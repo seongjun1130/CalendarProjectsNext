@@ -28,12 +28,7 @@ public class UserService {
     private final String ADMIN_KEY = "AAABnvxRVklrnYxKZ0aHgTBcXukeZygoC";
 
     public UserCreateResponseDto createUser(UserCreateRequestDto ucrDto) {
-        if (userRepository.existsByEmail(ucrDto.getEmail())) {
-            throw new CustomException(ALREADY_EMAIL_USER);
-        }
-        if (userRepository.existsByUserName(ucrDto.getUserName())) {
-            throw new CustomException(ALREADY_USERNAME_USER);
-        }
+        validateUserUniqueness(ucrDto.getEmail(), ucrDto.getUserName());
         User user = UserCommand.Create.toEntity(ucrDto, passwordEncoder, ADMIN_KEY);
         userRepository.save(user);
         String token = jwtUtil.createToken(user.getId(), user.getRole());
@@ -67,12 +62,7 @@ public class UserService {
     }
 
     public void updateUser(User user, UserUpdateRequestDto uurDto) {
-        if (userRepository.existsByEmail(uurDto.getEmail())) {
-            throw new CustomException(ALREADY_EMAIL_USER);
-        }
-        if (userRepository.existsByUserName(uurDto.getUserName())) {
-            throw new CustomException(ALREADY_USERNAME_USER);
-        }
+        validateUserUniqueness(uurDto.getEmail(), uurDto.getUserName());
         UserCommand.Update.executeUpdate(user, uurDto);
     }
 
@@ -82,9 +72,7 @@ public class UserService {
     }
 
     public void kickUser(User user, Long kickUserId) {
-        if (!user.isAdmin()) {
-            throw new CustomException(NOT_ADMIN);
-        }
+        user.isAdmin();
         if (kickUserId.equals(user.getId())) {
             throw new CustomException(NOT_KICK_SELF);
         }
@@ -94,5 +82,14 @@ public class UserService {
 
     public User getLogInUser(String token) {
         return userRepository.findById(Long.valueOf(token)).orElseThrow(() -> new CustomException(USER_NOT_FOUND));
+    }
+
+    private void validateUserUniqueness(String email, String userName) {
+        if (userRepository.existsByEmail(email)) {
+            throw new CustomException(ALREADY_EMAIL_USER);
+        }
+        if (userRepository.existsByUserName(userName)) {
+            throw new CustomException(ALREADY_USERNAME_USER);
+        }
     }
 }

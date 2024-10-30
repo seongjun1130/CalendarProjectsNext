@@ -46,18 +46,12 @@ public class ScheduleService {
     }
 
     public void updateSchedule(Long scheduleId, ScheduleUpdateRequestDto surDto, User user) {
-        if (!user.isAdmin()) {
-            throw new CustomException(NOT_ADMIN);
-        }
-        Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(() -> new CustomException(SCHEDULE_NOT_FOUND));
+        Schedule schedule = getValidatedAdminSchedule(scheduleId, user);
         ScheduleCommand.Update.executeUpdate(schedule, surDto);
     }
 
     public void deleteSchedule(Long scheduleId, User user) {
-        if (!user.isAdmin()) {
-            throw new CustomException(NOT_ADMIN);
-        }
-        Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(() -> new CustomException(SCHEDULE_NOT_FOUND));
+        Schedule schedule = getValidatedAdminSchedule(scheduleId, user);
         scheduleRepository.delete(schedule);
     }
 
@@ -69,5 +63,10 @@ public class ScheduleService {
             srrDto.setCommentCount((long) schedule.getCommentList().size());
             return srrDto;
         });
+    }
+
+    private Schedule getValidatedAdminSchedule(Long scheduleId, User user) {
+        user.isAdmin();
+        return scheduleRepository.findById(scheduleId).orElseThrow(() -> new CustomException(SCHEDULE_NOT_FOUND));
     }
 }

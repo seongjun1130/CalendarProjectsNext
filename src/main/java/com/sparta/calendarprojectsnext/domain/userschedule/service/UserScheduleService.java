@@ -31,9 +31,7 @@ public class UserScheduleService {
 
     public UserScheduleAssignResponseDto assignUser(User user, UserScheduleAssignRequestDto uarDto) {
         UserSchedule userSchedule = UserScheduleCommand.Create.toUserSchedule(uarDto, scheduleRepository, userRepository);
-        if (userSchedule.isValidateCreator(user.getId())) {
-            throw new CustomException(NOT_CREATOR);
-        }
+        userSchedule.isValidateCreator(user.getId());
         if (userScheduleRepository.existsByUserIdAndScheduleId(userSchedule.getUser().getId(), userSchedule.getSchedule().getId())) {
             throw new CustomException(ALREADY_ASSIGN_USER);
         }
@@ -43,9 +41,7 @@ public class UserScheduleService {
 
     public UserScheduleDeleteUserResponseDto deleteUser(User user, UserScheduleDeleteUserRequestDto sduDto) {
         UserSchedule userSchedule = userScheduleRepository.findByUserIdAndScheduleId(sduDto.getDeleteUserId(), sduDto.getScheduleId()).orElseThrow(() -> new CustomException(USER_SCHEDULE_NOT_FOUND));
-        if (userSchedule.isValidateCreator(user.getId())) {
-            throw new CustomException(NOT_CREATOR);
-        }
+        userSchedule.isValidateCreator(user.getId());
         if (!userScheduleRepository.existsByUserIdAndRole(userSchedule.getUser().getId(), userSchedule.getRole())) {
             throw new CustomException(ASSIGN_USER_NOT_FOUND);
         }
