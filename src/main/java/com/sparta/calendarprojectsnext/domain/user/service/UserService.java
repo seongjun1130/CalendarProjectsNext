@@ -37,7 +37,9 @@ public class UserService {
         User user = UserCommand.Create.toEntity(ucrDto, passwordEncoder, ADMIN_KEY);
         userRepository.save(user);
         String token = jwtUtil.createToken(user.getId(), user.getRole());
+        // MapStruct 를 통해 Entity-> ResponseDto
         UserCreateResponseDto resDto = userMapper.userToUserCreateResponseDto(user);
+        // ResponseDto 내의 유저 Token 삽입
         resDto.setToken(token);
         return resDto;
     }
@@ -48,7 +50,9 @@ public class UserService {
             throw new CustomException(LOGIN_FAILED);
         }
         String token = jwtUtil.createToken(user.getId(), user.getRole());
+        // MapStruct 를 통해 Entity-> ResponseDto
         UserLoginResponseDto resDto = userMapper.userToUserLoginResponseDto(user);
+        // ResponseDto 내의 유저 Token 삽입
         resDto.setToken(token);
         return resDto;
     }

@@ -28,6 +28,7 @@ public class UserController {
     @PostMapping("/registration")
     public ResponseEntity<UserCreateResponseDto> createUser(@Valid @RequestBody UserCreateRequestDto ucrDto, HttpServletResponse res) {
         UserCreateResponseDto resDto = userService.createUser(ucrDto);
+        // 회원가입이 완료된 유저의 Token 을 HttpServletResponse 쿠키부분에 세팅
         jwtUtil.addJwtToCookie(resDto.getToken(), res);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
@@ -37,6 +38,7 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<UserLoginResponseDto> logIn(@Valid @RequestBody UserLoginRequestDto ulrDto, HttpServletResponse res) {
         UserLoginResponseDto resDto = userService.logIn(ulrDto);
+        // 로그인 검증이 완료된 유저의 Token 을 HttpServletResponse 쿠키부분에 세팅
         jwtUtil.addJwtToCookie(resDto.getToken(), res);
         return ResponseEntity.status(HttpStatus.OK).body(resDto);
     }
