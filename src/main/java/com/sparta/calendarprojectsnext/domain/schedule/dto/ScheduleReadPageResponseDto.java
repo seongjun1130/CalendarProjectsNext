@@ -10,11 +10,11 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 public class ScheduleReadPageResponseDto {
-    private Long id;
-    private Long userId;
-    private String title;
-    private String scheduleDetails;
-    private Long commentCount;
-    private LocalDateTime createdAt;
-    private LocalDateTime modifiedAt;
+  private Long id;
+  private Long userId;
+  private String title;
+  private String scheduleDetails;
+  private Long commentCount;
+  private LocalDateTime createdAt;
+  private LocalDateTime modifiedAt;
 }

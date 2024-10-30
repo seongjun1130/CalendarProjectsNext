@@ -23,27 +23,28 @@ import static com.sparta.calendarprojectsnext.domain.exception.eunm.ErrorCode.TO
 @Order(1)
 @RequiredArgsConstructor
 public class AuthFilter extends OncePerRequestFilter {
-    private final JwtUtil jwtUtil;
+  private final JwtUtil jwtUtil;
 
-
-    @Override
-    protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws ServletException, IOException {
-        if (isFilterApplicable(req)) {
-            chain.doFilter(req, res);
-        }
-        String tokenValue = jwtUtil.getTokenFromRequest(req);
-        if (!StringUtils.hasText(tokenValue)) {
-            throw new UnAuthorizationException(TOKEN_NOT_FOUND);
-        }
-        String accessToken = jwtUtil.substringToken(tokenValue);
-        if (!jwtUtil.validateToken(accessToken)) {
-            throw new UnAuthorizationException(INVALID_TOKEN);
-        }
-        chain.doFilter(req, res);
+  @Override
+  protected void doFilterInternal(
+      HttpServletRequest req, HttpServletResponse res, FilterChain chain)
+      throws ServletException, IOException {
+    if (isFilterApplicable(req)) {
+      chain.doFilter(req, res);
     }
-
-    private boolean isFilterApplicable(HttpServletRequest req) {
-        String path = req.getRequestURI();
-        return path.startsWith("/user/registration") || path.startsWith("/user/login");
+    String tokenValue = jwtUtil.getTokenFromRequest(req);
+    if (!StringUtils.hasText(tokenValue)) {
+      throw new UnAuthorizationException(TOKEN_NOT_FOUND);
     }
+    String accessToken = jwtUtil.substringToken(tokenValue);
+    if (!jwtUtil.validateToken(accessToken)) {
+      throw new UnAuthorizationException(INVALID_TOKEN);
+    }
+    chain.doFilter(req, res);
+  }
+
+  private boolean isFilterApplicable(HttpServletRequest req) {
+    String path = req.getRequestURI();
+    return path.startsWith("/user/registration") || path.startsWith("/user/login");
+  }
 }

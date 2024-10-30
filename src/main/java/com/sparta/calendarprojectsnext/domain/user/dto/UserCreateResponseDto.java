@@ -1,8 +1,7 @@
 package com.sparta.calendarprojectsnext.domain.user.dto;
 
-import lombok.*;
-
 import java.time.LocalDateTime;
+import lombok.*;
 
 @Getter
 @Setter
@@ -10,10 +9,11 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 public class UserCreateResponseDto {
-    private Long id;
-    private String userName;
-    private String email;
-    private LocalDateTime createdAt;
-    private LocalDateTime modifiedAt;
-    private String role;
+  private Long id;
+  private String userName;
+  private String email;
+  private LocalDateTime createdAt;
+  private LocalDateTime modifiedAt;
+  private String role;
+  private String token;
 }

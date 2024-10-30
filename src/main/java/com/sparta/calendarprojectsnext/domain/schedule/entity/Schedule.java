@@ -6,10 +6,9 @@ import com.sparta.calendarprojectsnext.domain.comment.entity.Comment;
 import com.sparta.calendarprojectsnext.domain.user.entity.User;
 import com.sparta.calendarprojectsnext.domain.userschedule.entity.UserSchedule;
 import jakarta.persistence.*;
-import lombok.*;
-
 import java.util.ArrayList;
 import java.util.List;
+import lombok.*;
 
 @Setter
 @Getter
@@ -19,24 +18,28 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class Schedule extends Auditable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @Column(name = "title", nullable = false, length = 50)
-    private String title;
-    @Column(name = "scheduledetails", nullable = false)
-    private String scheduleDetails;
-    @Column(name = "weather", nullable = false)
-    private String weather;
-    @OneToMany(mappedBy = "schedule", cascade = CascadeType.REMOVE)
-    private List<Comment> commentList = new ArrayList<>();
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @OneToMany(mappedBy = "schedule", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    @JsonIgnore
-    private List<UserSchedule> userScheduleList = new ArrayList<>();
+  @Column(name = "title", nullable = false, length = 50)
+  private String title;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    @JsonIgnore
-    private User user;
+  @Column(name = "scheduledetails", nullable = false)
+  private String scheduleDetails;
+
+  @Column(name = "weather", nullable = false)
+  private String weather;
+
+  @OneToMany(mappedBy = "schedule", cascade = CascadeType.REMOVE)
+  private List<Comment> commentList = new ArrayList<>();
+
+  @OneToMany(mappedBy = "schedule", cascade = CascadeType.REMOVE, orphanRemoval = true)
+  @JsonIgnore
+  private List<UserSchedule> userScheduleList = new ArrayList<>();
+
+  @ManyToOne
+  @JoinColumn(name = "user_id")
+  @JsonIgnore
+  private User user;
 }

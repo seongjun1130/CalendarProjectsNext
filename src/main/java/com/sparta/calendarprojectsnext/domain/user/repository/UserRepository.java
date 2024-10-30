@@ -1,16 +1,17 @@
 package com.sparta.calendarprojectsnext.domain.user.repository;
 
 import com.sparta.calendarprojectsnext.domain.user.entity.User;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.Optional;
-
 public interface UserRepository extends JpaRepository<User, Long> {
-    boolean existsByEmail(String email);
+  boolean existsByEmail(String email);
 
-    boolean existsByUserName(String username);
+  boolean existsByUserName(String username);
 
-    Optional<User> findByEmail(String email);
+  Optional<User> findByEmail(String email);
 
-    Optional<User> findById(Long id);
+  Optional<User> findById(Long id);
+
+  Optional<User> findByEmailOrUserName(String email, String userName);
 }

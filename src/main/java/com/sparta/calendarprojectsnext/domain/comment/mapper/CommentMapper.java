@@ -8,9 +8,10 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface CommentMapper {
-    @Mapping(source = "schedule.id", target = "scheduleId")
-    CommentCreateResponseDto commentToCommentCreateResponseDto(Comment comment);
-    @Mapping(source = "schedule.id", target = "scheduleId")
-    @Mapping(source = "comment.id",target = "commentId")
-    CommentReadResponseDto commentToCommentReadResponseDto(Comment comment);
+  @Mapping(source = "schedule.id", target = "scheduleId")
+  CommentCreateResponseDto commentToCommentCreateResponseDto(Comment comment);
+
+  @Mapping(source = "schedule.id", target = "scheduleId")
+  @Mapping(source = "comment.id", target = "commentId")
+  CommentReadResponseDto commentToCommentReadResponseDto(Comment comment);
 }

@@ -8,11 +8,11 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface UserScheduleMapper {
-    @Mapping(source = "user.id", target = "userId")
-    @Mapping(source = "schedule.id", target = "scheduleId")
-    UserScheduleAssignResponseDto UserScheduleToUserScheduleDto(UserSchedule userSchedule);
+  @Mapping(source = "user.id", target = "userId")
+  @Mapping(source = "schedule.id", target = "scheduleId")
+  UserScheduleAssignResponseDto UserScheduleToUserScheduleDto(UserSchedule userSchedule);
 
-    @Mapping(source = "user.id", target = "userId")
-    @Mapping(source = "schedule.id", target = "scheduleId")
-    UserScheduleDeleteUserResponseDto UserScheduleToUserScheduleDeleteDto(UserSchedule userSchedule);
+  @Mapping(source = "user.id", target = "userId")
+  @Mapping(source = "schedule.id", target = "scheduleId")
+  UserScheduleDeleteUserResponseDto UserScheduleToUserScheduleDeleteDto(UserSchedule userSchedule);
 }

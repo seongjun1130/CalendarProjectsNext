@@ -17,17 +17,17 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("/user_schedule")
 public class UserScheduleController {
-    private final UserScheduleService userScheduleService;
+  private final UserScheduleService userScheduleService;
 
-    @PostMapping("/assign_user")
-    public ResponseEntity<UserScheduleAssignResponseDto> assignUser(@LoginUser User user, @RequestBody @Valid UserScheduleAssignRequestDto uarDto) {
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(userScheduleService.assignUser(user, uarDto));
-    }
+  @PostMapping("/assign_user")
+  public ResponseEntity<UserScheduleAssignResponseDto> assignUser(
+      @LoginUser User user, @RequestBody @Valid UserScheduleAssignRequestDto uarDto) {
+    return ResponseEntity.status(HttpStatus.OK).body(userScheduleService.assignUser(user, uarDto));
+  }
 
-    @DeleteMapping("/assign_user")
-    public ResponseEntity<UserScheduleDeleteUserResponseDto> deleteAssignUser(@LoginUser User user, @RequestBody @Valid UserScheduleDeleteUserRequestDto sduDto) {
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(userScheduleService.deleteUser(user, sduDto));
-    }
+  @DeleteMapping("/assign_user")
+  public ResponseEntity<UserScheduleDeleteUserResponseDto> deleteAssignUser(
+      @LoginUser User user, @RequestBody @Valid UserScheduleDeleteUserRequestDto sduDto) {
+    return ResponseEntity.status(HttpStatus.OK).body(userScheduleService.deleteUser(user, sduDto));
+  }
 }

@@ -20,35 +20,34 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("/comment")
 public class CommentController {
-    private final CommentService commentService;
+  private final CommentService commentService;
 
-    @PostMapping()
-    public ResponseEntity<CommentCreateResponseDto> createComment(@LoginUser User user, @RequestBody @Valid CommentCreateRequestDto ccrDto) {
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(commentService.createComment(ccrDto, user));
-    }
+  @PostMapping()
+  public ResponseEntity<CommentCreateResponseDto> createComment(
+      @LoginUser User user, @RequestBody @Valid CommentCreateRequestDto ccrDto) {
+    return ResponseEntity.status(HttpStatus.CREATED)
+        .body(commentService.createComment(ccrDto, user));
+  }
 
-    @GetMapping("/{commentId}")
-    public ResponseEntity<CommentReadResponseDto> getCommentList(@PathVariable @Positive(message = "CommentId 는 0보다 커야합니다.") Long commentId) {
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(commentService.getComment(commentId));
-    }
+  @GetMapping("/{commentId}")
+  public ResponseEntity<CommentReadResponseDto> getCommentList(
+      @PathVariable @Positive(message = "CommentId 는 0보다 커야합니다.") Long commentId) {
+    return ResponseEntity.status(HttpStatus.OK).body(commentService.getComment(commentId));
+  }
 
-    @PutMapping("/{commentId}")
-    public ResponseEntity<Void> updateComment(@LoginUser User user, @PathVariable Long commentId, @RequestBody @Valid CommentUpdateRequestDto curDto) {
-        commentService.updateComment(user, commentId, curDto);
-        return ResponseEntity
-                .status(HttpStatus.NO_CONTENT)
-                .build();
-    }
+  @PutMapping("/{commentId}")
+  public ResponseEntity<Void> updateComment(
+      @LoginUser User user,
+      @PathVariable Long commentId,
+      @RequestBody @Valid CommentUpdateRequestDto curDto) {
+    commentService.updateComment(user, commentId, curDto);
+    return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+  }
 
-    @DeleteMapping("/{commentId}")
-    public ResponseEntity<Void> deleteComment(@PathVariable @Positive(message = "CommentId 는 0보다 커야합니다.") Long commentId) {
-        commentService.deleteComment(commentId);
-        return ResponseEntity
-                .status(HttpStatus.NO_CONTENT)
-                .build();
-    }
+  @DeleteMapping("/{commentId}")
+  public ResponseEntity<Void> deleteComment(
+      @PathVariable @Positive(message = "CommentId 는 0보다 커야합니다.") Long commentId) {
+    commentService.deleteComment(commentId);
+    return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+  }
 }

@@ -9,8 +9,8 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class UserLoginResponseDto {
-    private String token;
-    private String userName;
-    private Long id;
-    private UserRole role;
+  private String token;
+  private String userName;
+  private Long id;
+  private UserRole role;
 }

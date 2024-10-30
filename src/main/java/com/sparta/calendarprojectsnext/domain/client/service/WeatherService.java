@@ -20,33 +20,37 @@ import static com.sparta.calendarprojectsnext.domain.exception.eunm.ErrorCode.WE
 
 @Service
 public class WeatherService {
-    private final RestTemplate restTemplate;
+  private final RestTemplate restTemplate;
 
-    public WeatherService(RestTemplateBuilder builder) {
-        this.restTemplate = builder.build();
+  public WeatherService(RestTemplateBuilder builder) {
+    this.restTemplate = builder.build();
+  }
+
+  public String getWeather() {
+    LocalDate today = LocalDate.now();
+    String date = today.format(DateTimeFormatter.ofPattern("MM-dd"));
+    URI uri =
+        UriComponentsBuilder.fromUriString("https://f-api.github.io")
+            .path("/f-api/weather.json")
+            .encode()
+            .build()
+            .toUri();
+    ResponseEntity<String> response = restTemplate.getForEntity(uri, String.class);
+    return fromJSONtoItems(response.getBody()).stream()
+        .filter(weatherResponseDto -> weatherResponseDto.getDate().equals(date))
+        .map(WeatherResponseDto::getWeather)
+        .findFirst()
+        .orElseThrow(() -> new CustomException(WEATHER_NOT_FOUND));
+  }
+
+  public List<WeatherResponseDto> fromJSONtoItems(String responseEntity) {
+    JSONArray items = new JSONArray(responseEntity);
+    List<WeatherResponseDto> weatherList = new ArrayList<>();
+
+    for (Object item : items) {
+      WeatherResponseDto weatherDto = new WeatherResponseDto((JSONObject) item);
+      weatherList.add(weatherDto);
     }
-
-    public String getWeather() {
-        LocalDate today = LocalDate.now();
-        String date = today.format(DateTimeFormatter.ofPattern("MM-dd"));
-        URI uri = UriComponentsBuilder
-                .fromUriString("https://f-api.github.io")
-                .path("/f-api/weather.json")
-                .encode()
-                .build()
-                .toUri();
-        ResponseEntity<String> response = restTemplate.getForEntity(uri, String.class);
-        return fromJSONtoItems(response.getBody()).stream().filter(weatherResponseDto -> weatherResponseDto.getDate().equals(date)).map(WeatherResponseDto::getWeather).findFirst().orElseThrow(() -> new CustomException(WEATHER_NOT_FOUND));
-    }
-
-    public List<WeatherResponseDto> fromJSONtoItems(String responseEntity) {
-        JSONArray items = new JSONArray(responseEntity);
-        List<WeatherResponseDto> weatherList = new ArrayList<>();
-
-        for (Object item : items) {
-            WeatherResponseDto weatherDto = new WeatherResponseDto((JSONObject) item);
-            weatherList.add(weatherDto);
-        }
-        return weatherList;
-    }
+    return weatherList;
+  }
 }

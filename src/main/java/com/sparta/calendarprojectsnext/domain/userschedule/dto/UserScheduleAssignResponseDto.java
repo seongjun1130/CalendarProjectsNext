@@ -1,8 +1,7 @@
 package com.sparta.calendarprojectsnext.domain.userschedule.dto;
 
-import lombok.*;
-
 import java.time.LocalDateTime;
+import lombok.*;
 
 @Getter
 @Setter
@@ -10,9 +9,9 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 public class UserScheduleAssignResponseDto {
-    private Long id;
-    private Long scheduleId;
-    private Long userId;
-    private String role;
-    private LocalDateTime joinedAt;
+  private Long id;
+  private Long scheduleId;
+  private Long userId;
+  private String role;
+  private LocalDateTime joinedAt;
 }

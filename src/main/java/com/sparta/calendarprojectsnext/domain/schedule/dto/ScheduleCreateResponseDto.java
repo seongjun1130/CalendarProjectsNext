@@ -10,11 +10,11 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 public class ScheduleCreateResponseDto {
-    private Long id;
-    private Long userId;
-    private String title;
-    private String scheduleDetails;
-    private String weather;
-    private LocalDateTime createdAt;
-    private LocalDateTime modifiedAt;
+  private Long id;
+  private Long userId;
+  private String title;
+  private String scheduleDetails;
+  private String weather;
+  private LocalDateTime createdAt;
+  private LocalDateTime modifiedAt;
 }
