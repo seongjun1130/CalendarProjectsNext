@@ -33,7 +33,7 @@ public class ScheduleService {
 
 
     public ScheduleCreateResponseDto createSchedule(User user, ScheduleCreateRequestDto scrDto) {
-        Schedule schedule = ScheduleCommand.Create.toSchedule(scrDto, user, weatherService);
+        Schedule schedule = ScheduleCommand.Create.toSchedule(scrDto, user, weatherService.getWeather());
         scheduleRepository.save(schedule);
         UserSchedule userSchedule = ScheduleCommand.Create.toUserSchedule(schedule);
         userScheduleRepository.save(userSchedule);

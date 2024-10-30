@@ -11,4 +11,5 @@ import org.springframework.http.HttpStatus;
 public class ErrorDto {
     private final HttpStatus status;
     private final String message;
+    private final String errorCode;
 }

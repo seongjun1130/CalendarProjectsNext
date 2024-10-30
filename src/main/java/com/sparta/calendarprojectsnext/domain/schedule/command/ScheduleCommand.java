@@ -15,12 +15,10 @@ public class ScheduleCommand {
     public static class Create {
         private static String title;
         private static String scheduleDetails;
-        private static String weather;
 
-        public static Schedule toSchedule(ScheduleCreateRequestDto scrDto, User user, WeatherService weatherService) {
+        public static Schedule toSchedule(ScheduleCreateRequestDto scrDto, User user, String weather) {
             title = scrDto.getTitle();
             scheduleDetails = scrDto.getScheduleDetails();
-            weather = weatherService.getWeather();
             return Schedule.builder()
                     .user(user)
                     .title(title)
