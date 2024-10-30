@@ -19,43 +19,43 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/schedule")
 public class ScheduleController {
 
-    private final ScheduleService scheduleService;
+  private final ScheduleService scheduleService;
 
-    @PostMapping()
-    public ResponseEntity<ScheduleCreateResponseDto> createsSchedule(@LoginUser User user, @Valid @RequestBody ScheduleCreateRequestDto scrDto) {
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(scheduleService.createSchedule(user, scrDto));
-    }
+  @PostMapping()
+  public ResponseEntity<ScheduleCreateResponseDto> createsSchedule(
+      @LoginUser User user, @Valid @RequestBody ScheduleCreateRequestDto scrDto) {
+    return ResponseEntity.status(HttpStatus.CREATED)
+        .body(scheduleService.createSchedule(user, scrDto));
+  }
 
-    @GetMapping()
-    public ResponseEntity<Page<ScheduleReadPageResponseDto>> getSchedules(@RequestParam(defaultValue = "0", value = "pageNo") int pageNo
-            , @RequestParam(defaultValue = "10", value = "pageSize") int pageSize) {
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(scheduleService.getSchedules(pageNo, pageSize));
-    }
+  @GetMapping()
+  public ResponseEntity<Page<ScheduleReadPageResponseDto>> getSchedules(
+      @RequestParam(defaultValue = "0", value = "pageNo") int pageNo,
+      @RequestParam(defaultValue = "10", value = "pageSize") int pageSize) {
+    return ResponseEntity.status(HttpStatus.OK)
+        .body(scheduleService.getSchedules(pageNo, pageSize));
+  }
 
-    @GetMapping("/{scheduleId}")
-    public ResponseEntity<ScheduleReadResponseDto> getScheduleById(@PathVariable @Positive(message = "ScheduleId 는 0보다 커야합니다.") Long scheduleId) {
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(scheduleService.getScheduleById(scheduleId));
-    }
+  @GetMapping("/{scheduleId}")
+  public ResponseEntity<ScheduleReadResponseDto> getScheduleById(
+      @PathVariable @Positive(message = "ScheduleId 는 0보다 커야합니다.") Long scheduleId) {
+    return ResponseEntity.status(HttpStatus.OK).body(scheduleService.getScheduleById(scheduleId));
+  }
 
-    @PutMapping("/{scheduleId}")
-    public ResponseEntity<Void> updateSchedule(@LoginUser User user, @PathVariable @Positive(message = "ScheduleId 는 0보다 커야합니다.") Long scheduleId, @RequestBody @Valid ScheduleUpdateRequestDto surDto) {
-        scheduleService.updateSchedule(scheduleId, surDto, user);
-        return ResponseEntity
-                .status(HttpStatus.NO_CONTENT)
-                .build();
-    }
+  @PutMapping("/{scheduleId}")
+  public ResponseEntity<Void> updateSchedule(
+      @LoginUser User user,
+      @PathVariable @Positive(message = "ScheduleId 는 0보다 커야합니다.") Long scheduleId,
+      @RequestBody @Valid ScheduleUpdateRequestDto surDto) {
+    scheduleService.updateSchedule(scheduleId, surDto, user);
+    return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+  }
 
-    @DeleteMapping("/{scheduleId}")
-    public ResponseEntity<Void> deleteSchedule(@LoginUser User user, @PathVariable @Positive(message = "ScheduleId 는 0보다 커야합니다.") Long scheduleId) {
-        scheduleService.deleteSchedule(scheduleId,user);
-        return ResponseEntity
-                .status(HttpStatus.NO_CONTENT)
-                .build();
-    }
+  @DeleteMapping("/{scheduleId}")
+  public ResponseEntity<Void> deleteSchedule(
+      @LoginUser User user,
+      @PathVariable @Positive(message = "ScheduleId 는 0보다 커야합니다.") Long scheduleId) {
+    scheduleService.deleteSchedule(scheduleId, user);
+    return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+  }
 }

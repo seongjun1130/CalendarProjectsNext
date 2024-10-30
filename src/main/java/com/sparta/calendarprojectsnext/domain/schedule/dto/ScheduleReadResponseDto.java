@@ -12,11 +12,11 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class ScheduleReadResponseDto {
-    private Long id;
-    private Long userId;
-    private String title;
-    private String scheduleDetails;
-    private LocalDateTime createdAt;
-    private LocalDateTime modifiedAt;
-    private List<Comment> commentList;
+  private Long id;
+  private Long userId;
+  private String title;
+  private String scheduleDetails;
+  private LocalDateTime createdAt;
+  private LocalDateTime modifiedAt;
+  private List<Comment> commentList;
 }

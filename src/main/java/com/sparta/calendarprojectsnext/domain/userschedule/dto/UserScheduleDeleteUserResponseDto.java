@@ -8,7 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class UserScheduleDeleteUserResponseDto {
-    private Long id;
-    private Long scheduleId;
-    private Long userId;
+  private Long id;
+  private Long scheduleId;
+  private Long userId;
 }

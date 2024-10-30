@@ -14,20 +14,31 @@ import java.util.Objects;
 
 import static com.sparta.calendarprojectsnext.domain.exception.eunm.ErrorCode.INTERNAL_SERVER_ERROR;
 
-
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler({CustomException.class})
-    protected ResponseEntity<ErrorDto> handleCustomException(CustomException e, HttpServletRequest req) {
-        log.error("url:{}, trace:{}", req.getRequestURI(), e.getStackTrace());
-        return new ResponseEntity<>(new ErrorDto(e.getErrorCode().getCode(), e.getErrorCode().getDescription(),e.getErrorCode().getErrorCode()), HttpStatus.valueOf(e.getErrorCode().getCode().value()));
-    }
+  @ExceptionHandler({CustomException.class})
+  protected ResponseEntity<ErrorDto> handleCustomException(
+      CustomException e, HttpServletRequest req) {
+    log.error("url:{}, trace:{}", req.getRequestURI(), e.getStackTrace());
+    return new ResponseEntity<>(
+        new ErrorDto(
+            e.getErrorCode().getCode(),
+            e.getErrorCode().getDescription(),
+            e.getErrorCode().getErrorCode()),
+        HttpStatus.valueOf(e.getErrorCode().getCode().value()));
+  }
 
-    @ExceptionHandler({MethodArgumentNotValidException.class})
-    protected ResponseEntity<ErrorDto> handleValidationException(MethodArgumentNotValidException e, HttpServletRequest req) {
-        log.error("url:{}, trace:{}", req.getRequestURI(), e.getStackTrace());
-        return new ResponseEntity<>(new ErrorDto((HttpStatus) e.getStatusCode(), Objects.requireNonNull(e.getBindingResult().getFieldError()).getDefaultMessage(),"ERROR 401"), HttpStatus.valueOf(e.getStatusCode().value()));
-    }
+  @ExceptionHandler({MethodArgumentNotValidException.class})
+  protected ResponseEntity<ErrorDto> handleValidationException(
+      MethodArgumentNotValidException e, HttpServletRequest req) {
+    log.error("url:{}, trace:{}", req.getRequestURI(), e.getStackTrace());
+    return new ResponseEntity<>(
+        new ErrorDto(
+            (HttpStatus) e.getStatusCode(),
+            Objects.requireNonNull(e.getBindingResult().getFieldError()).getDefaultMessage(),
+            "ERROR 401"),
+        HttpStatus.valueOf(e.getStatusCode().value()));
+  }
 }

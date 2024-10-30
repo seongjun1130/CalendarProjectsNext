@@ -16,17 +16,19 @@ import java.io.IOException;
 @Component
 public class AuthenticationExceptionHandlerFilter extends OncePerRequestFilter {
 
-    @Override
-    protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws ServletException, IOException {
-        try {
-            chain.doFilter(req, res);
-        } catch (UnAuthorizationException e) {
-            if (!res.isCommitted()) {
-                res.setStatus(e.getErrorCode().getStatus());
-                res.setContentType("application/json");
-                res.setCharacterEncoding("UTF-8");
-                res.getWriter().write(e.getErrorCode().toString());
-            }
-        }
+  @Override
+  protected void doFilterInternal(
+      HttpServletRequest req, HttpServletResponse res, FilterChain chain)
+      throws ServletException, IOException {
+    try {
+      chain.doFilter(req, res);
+    } catch (UnAuthorizationException e) {
+      if (!res.isCommitted()) {
+        res.setStatus(e.getErrorCode().getStatus());
+        res.setContentType("application/json");
+        res.setCharacterEncoding("UTF-8");
+        res.getWriter().write(e.getErrorCode().toString());
+      }
     }
+  }
 }

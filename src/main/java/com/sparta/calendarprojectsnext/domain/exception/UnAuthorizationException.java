@@ -7,5 +7,5 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class UnAuthorizationException extends RuntimeException {
-    private final ErrorCode errorCode;
+  private final ErrorCode errorCode;
 }

@@ -9,11 +9,11 @@ import org.json.JSONObject;
 @NoArgsConstructor
 @Builder
 public class WeatherResponseDto {
-    private String date;
-    private String weather;
+  private String date;
+  private String weather;
 
-    public WeatherResponseDto(JSONObject jsonObject) {
-        this.date = jsonObject.getString("date");
-        this.weather = jsonObject.getString("weather");
-    }
+  public WeatherResponseDto(JSONObject jsonObject) {
+    this.date = jsonObject.getString("date");
+    this.weather = jsonObject.getString("weather");
+  }
 }

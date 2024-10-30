@@ -17,33 +17,41 @@ import org.springframework.stereotype.Service;
 
 import static com.sparta.calendarprojectsnext.domain.exception.eunm.ErrorCode.COMMENT_NOT_FOUND;
 
-
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class CommentService {
-    private final CommentRepository commentRepository;
-    private final ScheduleRepository scheduleRepository;
-    private final CommentMapper commentMapper;
+  private final CommentRepository commentRepository;
+  private final ScheduleRepository scheduleRepository;
+  private final CommentMapper commentMapper;
 
-    public CommentCreateResponseDto createComment(CommentCreateRequestDto ccrDto, User user) {
-        Comment comment = CommentCommand.Create.toEntity(ccrDto, scheduleRepository, user);
-        commentRepository.save(comment);
-        return commentMapper.commentToCommentCreateResponseDto(comment);
-    }
+  public CommentCreateResponseDto createComment(CommentCreateRequestDto ccrDto, User user) {
+    Comment comment = CommentCommand.Create.toEntity(ccrDto, scheduleRepository, user);
+    commentRepository.save(comment);
+    return commentMapper.commentToCommentCreateResponseDto(comment);
+  }
 
-    public void updateComment(User user, Long commentId, CommentUpdateRequestDto curDto) {
-        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new CustomException(COMMENT_NOT_FOUND));
-        CommentCommand.Update.executeUpdate(user,comment, curDto);
-    }
+  public void updateComment(User user, Long commentId, CommentUpdateRequestDto curDto) {
+    Comment comment =
+        commentRepository
+            .findById(commentId)
+            .orElseThrow(() -> new CustomException(COMMENT_NOT_FOUND));
+    CommentCommand.Update.executeUpdate(user, comment, curDto);
+  }
 
-    public void deleteComment(Long commentId) {
-        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new CustomException(COMMENT_NOT_FOUND));
-        commentRepository.delete(comment);
-    }
+  public void deleteComment(Long commentId) {
+    Comment comment =
+        commentRepository
+            .findById(commentId)
+            .orElseThrow(() -> new CustomException(COMMENT_NOT_FOUND));
+    commentRepository.delete(comment);
+  }
 
-    public CommentReadResponseDto getComment(Long commentId) {
-        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new CustomException(COMMENT_NOT_FOUND));
-        return commentMapper.commentToCommentReadResponseDto(comment);
-    }
+  public CommentReadResponseDto getComment(Long commentId) {
+    Comment comment =
+        commentRepository
+            .findById(commentId)
+            .orElseThrow(() -> new CustomException(COMMENT_NOT_FOUND));
+    return commentMapper.commentToCommentReadResponseDto(comment);
+  }
 }
