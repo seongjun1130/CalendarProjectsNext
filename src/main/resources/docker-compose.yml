@@ -1,0 +1,21 @@
+version: '3'
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: calendarnext
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: calendarnext
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+    ports:
+      - "3307:3306"
+    volumes:
+      - db-data:/var/lib/mysql
+    networks:
+      - app-network
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      timeout: 20s
+      retries: 10
+    restart: always
